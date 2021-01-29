@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/browser.fxml"));
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setTitle("Login Page");
-        primaryStage.setScene(new Scene(root, 520, 400));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 

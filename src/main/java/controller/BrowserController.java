@@ -17,8 +17,32 @@ public class BrowserController implements Initializable {
     @FXML
     private TreeView<TextTreeItem> fileTree;
 
+    @FXML
+    private  Label fileNameLabel;
+    @FXML
+    private  Label fileSizeLabel;
+    @FXML
+    private  Label fileCreationLabel;
+    @FXML
+    private  Label fileLastModifiedLabel;
+    @FXML
+    private  Label fileMetadataLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeFileLabels();
+        initializeTreeView();
+    }
+
+    private void initializeFileLabels() {
+        fileNameLabel.setText("");
+        fileSizeLabel.setText("");
+        fileCreationLabel.setText("");
+        fileLastModifiedLabel.setText("");
+        fileMetadataLabel.setText("");
+    }
+
+    private void initializeTreeView() {
         TreeItem<TextTreeItem> root = new TreeItem<>();
 
         Arrays.asList(File.listRoots()).forEach(drive -> {
@@ -65,6 +89,9 @@ public class BrowserController implements Initializable {
                     });
                 }
             }
+            if (file.isFile()) {
+                handleFileDetails(file);
+            }
             // TODO: normal catch
         } catch (Exception e) {
             System.out.println("not found");
@@ -78,6 +105,12 @@ public class BrowserController implements Initializable {
         item.setExpanded(false);
         // Add the new tree item to the given parent tree item.
         parent.getChildren().add(item);
+    }
+
+    private void handleFileDetails(File file) {
+        initializeFileLabels();
+        fileNameLabel.setText(file.getName());
+        fileSizeLabel.setText(String.format("%d bytes", file.getTotalSpace()));
     }
 
     private Label createFileLabel(String fileName) {
