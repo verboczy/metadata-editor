@@ -6,12 +6,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import metadata.MetadataReader;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -116,9 +118,13 @@ public class BrowserController implements Initializable {
         fileNameLabel.setText(file.getName());
         fileSizeLabel.setText(String.format("%d bytes", file.length()));
         try {
-            BasicFileAttributes attr = Files.readAttributes(Path.of(file.getPath()), BasicFileAttributes.class);
+            Path path = Paths.get(file.getPath());
+            BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             fileCreationLabel.setText(attr.creationTime().toString());
             fileLastModifiedLabel.setText(attr.lastModifiedTime().toString());
+            MetadataReader metadataReader = new MetadataReader();
+            String metadata = metadataReader.read(path);
+            fileMetadataLabel.setText(metadata);
         } catch (IOException e) {
             e.printStackTrace();
         }
