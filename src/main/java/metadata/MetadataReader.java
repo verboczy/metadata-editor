@@ -6,12 +6,13 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MetadataReader {
 
-    public String read(Path path) {
-        StringBuilder result = new StringBuilder();
+    public List<Metadata> read(Path path) {
+        List<Metadata> result = new ArrayList<>();
         UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
         try {
             List<String> metadataList = fileAttributeView.list();
@@ -20,12 +21,12 @@ public class MetadataReader {
                 fileAttributeView.read(metadataCategory, byteBuffer);
                 byteBuffer.flip();
                 String metadataValue = Charset.defaultCharset().decode(byteBuffer).toString();
-                result.append(metadataCategory).append(" - ").append(metadataValue).append("\n");
+                result.add(new Metadata(metadataCategory, metadataValue));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return result.toString();
+        return result;
     }
 }

@@ -1,11 +1,13 @@
 package controller;
 
 import domain.TextTreeItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import metadata.Metadata;
 import metadata.MetadataReader;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BrowserController implements Initializable {
@@ -31,13 +34,20 @@ public class BrowserController implements Initializable {
     private  Label fileCreationLabel;
     @FXML
     private  Label fileLastModifiedLabel;
+
     @FXML
-    private  Label fileMetadataLabel;
+    private TableView<Metadata> metadataTableView;
+    @FXML
+    private TableColumn<Metadata, String> categoryTableColumn;
+    @FXML
+    private TableColumn<Metadata, String> valueTableColumn;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileLabels();
         initializeTreeView();
+
     }
 
     private void initializeFileLabels() {
@@ -45,7 +55,25 @@ public class BrowserController implements Initializable {
         fileSizeLabel.setText("");
         fileCreationLabel.setText("");
         fileLastModifiedLabel.setText("");
-        fileMetadataLabel.setText("");
+
+        categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        ObservableList<Metadata> metadata = FXCollections.observableArrayList(
+                Arrays.asList(new Metadata("actor", "Natalie Portman"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama"),
+                        new Metadata("genre", "drama")
+                ));
+        metadataTableView.setItems(metadata);
+        //metadataTableView.getColumns().addAll(categoryTableColumn, valueTableColumn);
     }
 
     private void initializeTreeView() {
@@ -123,8 +151,8 @@ public class BrowserController implements Initializable {
             fileCreationLabel.setText(attr.creationTime().toString());
             fileLastModifiedLabel.setText(attr.lastModifiedTime().toString());
             MetadataReader metadataReader = new MetadataReader();
-            String metadata = metadataReader.read(path);
-            fileMetadataLabel.setText(metadata);
+            ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
+            metadataTableView.setItems(metadataList);
         } catch (IOException e) {
             e.printStackTrace();
         }

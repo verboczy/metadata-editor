@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -31,7 +33,12 @@
                   <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="20.0" />
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
                   <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="20.0" />
-                  <Label fx:id="fileMetadataLabel" layoutX="126.0" layoutY="191.0" text="other metadata of the file" />
+                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="162.0" prefWidth="335.0">
+                    <columns>
+                      <TableColumn fx:id="categoryTableColumn" prefWidth="75.0" text="Category" />
+                      <TableColumn fx:id="valueTableColumn" prefWidth="259.0" text="Value" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
         </items>
