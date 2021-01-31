@@ -75,3 +75,5 @@ fabric.properties
 /jarRepositories.xml
 /misc.xml
 /compiler.xml
+
+*/target/**
