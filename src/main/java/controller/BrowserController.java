@@ -3,10 +3,16 @@ package controller;
 import domain.TextTreeItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import metadata.Metadata;
 import metadata.MetadataReader;
 
@@ -47,7 +53,6 @@ public class BrowserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileLabels();
         initializeTreeView();
-
     }
 
     private void initializeFileLabels() {
@@ -58,22 +63,26 @@ public class BrowserController implements Initializable {
 
         categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                metadataTableView.setContextMenu(getContextMenu(newSelection.getCategory(), newSelection.getValue()));
+            }
+        });
 
         ObservableList<Metadata> metadata = FXCollections.observableArrayList(
                 Arrays.asList(new Metadata("actor", "Natalie Portman"),
                         new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre", "drama")
+                        new Metadata("genre2", "drama"),
+                        new Metadata("genre3", "drama"),
+                        new Metadata("genre4", "drama"),
+                        new Metadata("genre5", "drama"),
+                        new Metadata("genre6", "drama"),
+                        new Metadata("genre7", "drama"),
+                        new Metadata("genre8", "drama"),
+                        new Metadata("genre9", "drama"),
+                        new Metadata("genre10", "drama")
                 ));
         metadataTableView.setItems(metadata);
-        //metadataTableView.getColumns().addAll(categoryTableColumn, valueTableColumn);
     }
 
     private void initializeTreeView() {
@@ -168,5 +177,34 @@ public class BrowserController implements Initializable {
         Label label = new Label(dirName);
         label.setStyle("-fx-text-fill: #0000FF;");
         return label;
+    }
+
+    private void openMetadataEditor(String category, String value) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
+            Parent root = loader.load();
+
+            EditorController editorController = loader.getController();
+            editorController.setCategoryText(category);
+            editorController.setMetadataValueText(value);
+
+            Stage editorStage = new Stage();
+            editorStage.initStyle(StageStyle.DECORATED);
+            editorStage.setScene(new Scene(root, 600, 400));
+            editorStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ContextMenu getContextMenu(String category, String value) {
+        MenuItem menuItem = new MenuItem("Edit");
+        menuItem.setOnAction((ActionEvent event) -> {
+            openMetadataEditor(category, value);
+        });
+
+        ContextMenu contextMenu = new ContextMenu();
+        contextMenu.getItems().add(menuItem);
+        return contextMenu;
     }
 }
