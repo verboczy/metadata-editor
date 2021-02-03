@@ -68,21 +68,6 @@ public class BrowserController implements Initializable {
                 metadataTableView.setContextMenu(getContextMenu(newSelection.getCategory(), newSelection.getValue()));
             }
         });
-
-        ObservableList<Metadata> metadata = FXCollections.observableArrayList(
-                Arrays.asList(new Metadata("actor", "Natalie Portman"),
-                        new Metadata("genre", "drama"),
-                        new Metadata("genre2", "drama"),
-                        new Metadata("genre3", "drama"),
-                        new Metadata("genre4", "drama"),
-                        new Metadata("genre5", "drama"),
-                        new Metadata("genre6", "drama"),
-                        new Metadata("genre7", "drama"),
-                        new Metadata("genre8", "drama"),
-                        new Metadata("genre9", "drama"),
-                        new Metadata("genre10", "drama")
-                ));
-        metadataTableView.setItems(metadata);
     }
 
     private void initializeTreeView() {
@@ -145,7 +130,7 @@ public class BrowserController implements Initializable {
     private void makeBranch(Label name, TreeItem<TextTreeItem> parent) {
         // Add label to new tree item.
         TreeItem<TextTreeItem> item = new TreeItem<>(new TextTreeItem(name));
-        item.setExpanded(false);
+        item.setExpanded(true);
         // Add the new tree item to the given parent tree item.
         parent.getChildren().add(item);
     }
