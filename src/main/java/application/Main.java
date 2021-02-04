@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/browser.fxml"));
         primaryStage.initStyle(StageStyle.DECORATED);
-        primaryStage.setTitle("Login Page");
+        primaryStage.setTitle("Metadata Editor");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }

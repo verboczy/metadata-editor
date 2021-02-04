@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class BrowserController implements Initializable {
@@ -48,11 +47,13 @@ public class BrowserController implements Initializable {
     @FXML
     private TableColumn<Metadata, String> valueTableColumn;
 
+    private File selectedFile;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileLabels();
         initializeTreeView();
+        selectedFile = null;
     }
 
     private void initializeFileLabels() {
@@ -100,6 +101,7 @@ public class BrowserController implements Initializable {
         try {
             // Tree item does not store the full path in itself. Get it from the hierarchy.
             File file = new File(getPath(parent));
+            selectedFile = file;
             // If it is a directory, then list its contents.
             if (file.isDirectory()) {
                 File[] files = file.listFiles();
@@ -172,6 +174,7 @@ public class BrowserController implements Initializable {
             EditorController editorController = loader.getController();
             editorController.setCategoryText(category);
             editorController.setMetadataValueText(value);
+            editorController.setPath(Paths.get(selectedFile.getPath()));
 
             Stage editorStage = new Stage();
             editorStage.initStyle(StageStyle.DECORATED);
