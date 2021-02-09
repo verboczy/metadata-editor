@@ -2,10 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -14,12 +17,12 @@
       <SplitPane dividerPositions="0.33" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <TreeView fx:id="fileTree" editable="true" prefHeight="400.0" prefWidth="363.0" showRoot="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-               </children>
                <padding>
                   <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                </padding>
+               <children>
+                  <ListView fx:id="fileListView" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+               </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -33,7 +36,7 @@
                   <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="20.0" />
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
                   <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="20.0" />
-                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="162.0" prefWidth="335.0">
+                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="162.0" prefWidth="335.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                       <placeholder>
                           <Label text="No metadata is set for this file." />
                       </placeholder>
@@ -47,4 +50,23 @@
         </items>
       </SplitPane>
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="openFileMenuItem" mnemonicParsing="false" onAction="#openFile" text="Open file" />
+              <MenuItem fx:id="openFilesMenuItem" mnemonicParsing="false" text="Open files" />
+                  <MenuItem fx:id="clearFilesMenuItem" mnemonicParsing="false" onAction="#clearFiles" text="Clear files" />
+                  <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+            <Menu fx:id="searchMenu" mnemonicParsing="false" text="Search">
+              <items>
+                <MenuItem fx:id="searchMenuItem" mnemonicParsing="false" text="Search" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>

@@ -1,6 +1,5 @@
 package controller;
 
-import domain.TextTreeItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import metadata.Metadata;
@@ -24,13 +24,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class BrowserController implements Initializable {
 
-    @FXML
-    private TreeView<TextTreeItem> fileTree;
-
+    // Labels
     @FXML
     private  Label fileNameLabel;
     @FXML
@@ -40,6 +40,21 @@ public class BrowserController implements Initializable {
     @FXML
     private  Label fileLastModifiedLabel;
 
+    // Menu items
+    @FXML
+    private MenuItem openFileMenuItem;
+    @FXML
+    private MenuItem openFilesMenuItem;
+    @FXML
+    private MenuItem clearFilesMenuItem;
+    @FXML
+    private MenuItem closeMenuItem;
+
+    // List views
+    @FXML
+    private ListView<String> fileListView;
+
+    // Table elements
     @FXML
     private TableView<Metadata> metadataTableView;
     @FXML
@@ -49,11 +64,34 @@ public class BrowserController implements Initializable {
 
     private File selectedFile;
 
+    private Map<String, String> fileNameToPath;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        fileNameToPath = new HashMap<>();
         initializeFileLabels();
-        initializeTreeView();
         selectedFile = null;
+
+        fileListView.getSelectionModel().selectedItemProperty().addListener((selectedItem, oldValue, newValue) -> {
+            if (newValue != null) {
+                String path = fileNameToPath.get(newValue);
+                if (path != null) {
+                    handleFileDetails(new File(path));
+                }
+            }
+        });
+    }
+
+    public void openFile() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            fileListView.getItems().add(selectedFile.getName());
+            fileNameToPath.put(selectedFile.getName(), selectedFile.getPath());
+        } else {
+            System.out.println("asd");
+        }
     }
 
     private void initializeFileLabels() {
@@ -71,72 +109,6 @@ public class BrowserController implements Initializable {
         });
     }
 
-    private void initializeTreeView() {
-        TreeItem<TextTreeItem> root = new TreeItem<>();
-
-        Arrays.asList(File.listRoots()).forEach(drive -> {
-            Label driveLabel = createDirectoryLabel(drive.getAbsolutePath());
-            makeBranch(driveLabel, root);
-        });
-
-        fileTree.setRoot(root);
-
-        fileTree.getSelectionModel().selectedItemProperty().addListener((selectedItem, oldValue, newValue) -> {
-            if (newValue != null) {
-                addBranch(newValue);
-            }
-        });
-    }
-
-    private String getPath(TreeItem<TextTreeItem> branch) {
-        StringBuilder path = new StringBuilder();
-        while (branch.getParent() != null) {
-            path.insert(0, "\\").insert(0, branch.getValue().getText());
-            branch = branch.getParent();
-        }
-        return path.toString();
-    }
-
-    private void addBranch(TreeItem<TextTreeItem> parent) {
-        try {
-            // Tree item does not store the full path in itself. Get it from the hierarchy.
-            File file = new File(getPath(parent));
-            selectedFile = file;
-            // If it is a directory, then list its contents.
-            if (file.isDirectory()) {
-                File[] files = file.listFiles();
-                if (files != null && files.length > 0) {
-                    Arrays.asList(files).forEach(f -> {
-                        Label label;
-                        // Use different color for directory, and file.
-                        if (f.isDirectory()) {
-                            label = createDirectoryLabel(f.getName());
-                        } else {
-                            label = createFileLabel(f.getName());
-                        }
-                        // Add content as new tree item.
-                        makeBranch(label, parent);
-                    });
-                }
-            }
-            if (file.isFile()) {
-                handleFileDetails(file);
-            }
-            // TODO: normal catch
-        } catch (Exception e) {
-            System.out.println("not found");
-        }
-    }
-
-    // TODO: add test for this
-    private void makeBranch(Label name, TreeItem<TextTreeItem> parent) {
-        // Add label to new tree item.
-        TreeItem<TextTreeItem> item = new TreeItem<>(new TextTreeItem(name));
-        item.setExpanded(true);
-        // Add the new tree item to the given parent tree item.
-        parent.getChildren().add(item);
-    }
-
     private void handleFileDetails(File file) {
         initializeFileLabels();
         fileNameLabel.setText(file.getName());
@@ -152,18 +124,6 @@ public class BrowserController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private Label createFileLabel(String fileName) {
-        Label label = new Label(fileName);
-        label.setStyle("-fx-text-fill: #FF00FF;");
-        return label;
-    }
-
-    private Label createDirectoryLabel(String dirName) {
-        Label label = new Label(dirName);
-        label.setStyle("-fx-text-fill: #0000FF;");
-        return label;
     }
 
     private void openMetadataEditor(String category, String value) {
@@ -194,5 +154,13 @@ public class BrowserController implements Initializable {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(menuItem);
         return contextMenu;
+    }
+
+    public void clearFiles() {
+        System.out.println("asd");
+        fileNameToPath.clear();
+        fileListView.getItems().removeAll(fileListView.getItems()); // this is so ugly...
+        initializeFileLabels();
+        metadataTableView.getItems().removeAll(metadataTableView.getItems()); // this is so ugly...
     }
 }
