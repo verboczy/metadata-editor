@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BrowserController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BrowserController">
    <center>
-      <SplitPane dividerPositions="0.33" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.41353383458646614" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <padding>
@@ -56,7 +56,6 @@
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
                   <MenuItem fx:id="openFileMenuItem" mnemonicParsing="false" onAction="#openFile" text="Open file" />
-              <MenuItem fx:id="openFilesMenuItem" mnemonicParsing="false" text="Open files" />
                   <MenuItem fx:id="clearFilesMenuItem" mnemonicParsing="false" onAction="#clearFiles" text="Clear files" />
                   <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
             </items>

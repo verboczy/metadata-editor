@@ -16,7 +16,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/browser.fxml"));
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setTitle("Metadata Editor");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
 

@@ -1,5 +1,6 @@
 package controller;
 
+import domain.FileExtension;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,36 +24,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BrowserController implements Initializable {
 
     // Labels
     @FXML
-    private  Label fileNameLabel;
+    private Label fileNameLabel;
     @FXML
-    private  Label fileSizeLabel;
+    private Label fileSizeLabel;
     @FXML
-    private  Label fileCreationLabel;
+    private Label fileCreationLabel;
     @FXML
-    private  Label fileLastModifiedLabel;
-
-    // Menu items
-    @FXML
-    private MenuItem openFileMenuItem;
-    @FXML
-    private MenuItem openFilesMenuItem;
-    @FXML
-    private MenuItem clearFilesMenuItem;
-    @FXML
-    private MenuItem closeMenuItem;
+    private Label fileLastModifiedLabel;
 
     // List views
     @FXML
-    private ListView<String> fileListView;
+    private ListView<File> fileListView;
 
     // Table elements
     @FXML
@@ -63,34 +52,39 @@ public class BrowserController implements Initializable {
     private TableColumn<Metadata, String> valueTableColumn;
 
     private File selectedFile;
-
-    private Map<String, String> fileNameToPath;
+    private FileChooser fileChooser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fileNameToPath = new HashMap<>();
         initializeFileLabels();
+        initializeSelectedFiles();
+    }
+
+    private void initializeSelectedFiles() {
         selectedFile = null;
 
         fileListView.getSelectionModel().selectedItemProperty().addListener((selectedItem, oldValue, newValue) -> {
             if (newValue != null) {
-                String path = fileNameToPath.get(newValue);
-                if (path != null) {
-                    handleFileDetails(new File(path));
-                }
+                selectedFile = newValue;
+                handleFileDetails();
             }
         });
+
+        fileChooser = new FileChooser();
+        for (FileExtension fileExtension : FileExtension.values()) {
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(fileExtension.extensionName, fileExtension.extension));
+        }
     }
 
     public void openFile() {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(null);
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
 
-        if (selectedFile != null) {
-            fileListView.getItems().add(selectedFile.getName());
-            fileNameToPath.put(selectedFile.getName(), selectedFile.getPath());
-        } else {
-            System.out.println("asd");
+        if (selectedFiles != null) {
+            for (File selectedFile : selectedFiles) {
+                if (selectedFile != null) {
+                    fileListView.getItems().add(selectedFile);
+                }
+            }
         }
     }
 
@@ -104,17 +98,19 @@ public class BrowserController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                metadataTableView.setContextMenu(getContextMenu(newSelection.getCategory(), newSelection.getValue()));
+                MenuItem menuItem = new MenuItem("Edit");
+                menuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
+                metadataTableView.setContextMenu(getContextMenu(menuItem));
             }
         });
     }
 
-    private void handleFileDetails(File file) {
+    private void handleFileDetails() {
         initializeFileLabels();
-        fileNameLabel.setText(file.getName());
-        fileSizeLabel.setText(String.format("%d bytes", file.length()));
+        fileNameLabel.setText(selectedFile.getName());
+        fileSizeLabel.setText(String.format("%d bytes", selectedFile.length()));
         try {
-            Path path = Paths.get(file.getPath());
+            Path path = Paths.get(selectedFile.getPath());
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             fileCreationLabel.setText(attr.creationTime().toString());
             fileLastModifiedLabel.setText(attr.lastModifiedTime().toString());
@@ -145,22 +141,15 @@ public class BrowserController implements Initializable {
         }
     }
 
-    private ContextMenu getContextMenu(String category, String value) {
-        MenuItem menuItem = new MenuItem("Edit");
-        menuItem.setOnAction((ActionEvent event) -> {
-            openMetadataEditor(category, value);
-        });
-
+    private ContextMenu getContextMenu(MenuItem menuItem) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(menuItem);
         return contextMenu;
     }
 
     public void clearFiles() {
-        System.out.println("asd");
-        fileNameToPath.clear();
-        fileListView.getItems().removeAll(fileListView.getItems()); // this is so ugly...
+        metadataTableView.getItems().removeAll(metadataTableView.getItems());
+        fileListView.getItems().removeAll(fileListView.getItems());
         initializeFileLabels();
-        metadataTableView.getItems().removeAll(metadataTableView.getItems()); // this is so ugly...
     }
 }
