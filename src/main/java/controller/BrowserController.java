@@ -123,6 +123,23 @@ public class BrowserController implements Initializable {
         System.exit(0);
     }
 
+    public void search() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/search.fxml"));
+            Parent root = loader.load();
+
+            SearchController editorController = loader.getController();
+
+            Stage searchStage = new Stage();
+            searchStage.setTitle("Search by metadata");
+            searchStage.initStyle(StageStyle.DECORATED);
+            searchStage.setScene(new Scene(root, 600, 400));
+            searchStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Helper methods
     private void handleFileDetails() {
         initializeFileDetails();

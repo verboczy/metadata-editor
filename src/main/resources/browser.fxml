@@ -75,7 +75,7 @@
           </Menu>
             <Menu fx:id="searchMenu" mnemonicParsing="false" text="Search">
               <items>
-                <MenuItem fx:id="searchMenuItem" mnemonicParsing="false" text="Search">
+                <MenuItem mnemonicParsing="false" onAction="#search" text="Search">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
