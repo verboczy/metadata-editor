@@ -9,6 +9,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
@@ -36,7 +37,7 @@
                   <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="20.0" />
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
                   <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="20.0" />
-                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="162.0" prefWidth="335.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="220.0" prefWidth="335.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                       <placeholder>
                           <Label text="No metadata is set for this file." />
                       </placeholder>
@@ -55,14 +56,26 @@
         <menus>
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="openFileMenuItem" mnemonicParsing="false" onAction="#openFile" text="Open file" />
-                  <MenuItem fx:id="clearFilesMenuItem" mnemonicParsing="false" onAction="#clearFiles" text="Clear files" />
-                  <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="openFileMenuItem" mnemonicParsing="false" onAction="#openFile" text="Open file(s)">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="clearFilesMenuItem" mnemonicParsing="false" onAction="#clearFiles" text="Clear file(s)">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#exitProgram" text="Exit">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
             </items>
           </Menu>
             <Menu fx:id="searchMenu" mnemonicParsing="false" text="Search">
               <items>
-                <MenuItem fx:id="searchMenuItem" mnemonicParsing="false" text="Search" />
+                <MenuItem fx:id="searchMenuItem" mnemonicParsing="false" text="Search">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
         </menus>
