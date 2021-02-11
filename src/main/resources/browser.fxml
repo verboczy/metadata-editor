@@ -45,6 +45,9 @@
                       <TableColumn fx:id="categoryTableColumn" prefWidth="75.0" text="Category" />
                       <TableColumn fx:id="valueTableColumn" prefWidth="259.0" text="Value" />
                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                </children>
             </AnchorPane>

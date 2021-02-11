@@ -111,7 +111,6 @@ public class BrowserController implements Initializable {
                 metadataTableView.setContextMenu(getContextMenu(menuItem));
             }
         });
-        metadataTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Needed, to have only the defined columns.
     }
 
     private void handleFileDetails() {
