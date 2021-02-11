@@ -54,10 +54,28 @@ public class BrowserController implements Initializable {
     private File selectedFile;
     private FileChooser fileChooser;
 
+    // Initialization
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileDetails();
         initializeSelectedFiles();
+    }
+
+    private void initializeFileDetails() {
+        fileNameLabel.setText("");
+        fileSizeLabel.setText("");
+        fileCreationLabel.setText("");
+        fileLastModifiedLabel.setText("");
+
+        categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                MenuItem menuItem = new MenuItem("Edit");
+                menuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
+                metadataTableView.setContextMenu(getContextMenu(menuItem));
+            }
+        });
     }
 
     private void initializeSelectedFiles() {
@@ -84,9 +102,9 @@ public class BrowserController implements Initializable {
         }
     }
 
+    // Action handler methods
     public void openFile() {
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
-
         if (selectedFiles != null) {
             for (File selectedFile : selectedFiles) {
                 if (selectedFile != null) {
@@ -96,23 +114,16 @@ public class BrowserController implements Initializable {
         }
     }
 
-    private void initializeFileDetails() {
-        fileNameLabel.setText("");
-        fileSizeLabel.setText("");
-        fileCreationLabel.setText("");
-        fileLastModifiedLabel.setText("");
-
-        categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-        metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                MenuItem menuItem = new MenuItem("Edit");
-                menuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
-                metadataTableView.setContextMenu(getContextMenu(menuItem));
-            }
-        });
+    public void clearFiles() {
+        fileListView.getItems().removeAll(fileListView.getItems());
+        clearFileDetails();
     }
 
+    public void exitProgram() {
+        System.exit(0);
+    }
+
+    // Helper methods
     private void handleFileDetails() {
         initializeFileDetails();
         fileNameLabel.setText(selectedFile.getName());
@@ -130,6 +141,18 @@ public class BrowserController implements Initializable {
         }
     }
 
+    private ContextMenu getContextMenu(MenuItem menuItem) {
+        ContextMenu contextMenu = new ContextMenu();
+        contextMenu.getItems().add(menuItem);
+        return contextMenu;
+    }
+
+    private void clearFileDetails() {
+        metadataTableView.getItems().removeAll(metadataTableView.getItems());
+        initializeFileDetails();
+    }
+
+    // Metadata
     private void openMetadataEditor(String category, String value) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
@@ -147,25 +170,5 @@ public class BrowserController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private ContextMenu getContextMenu(MenuItem menuItem) {
-        ContextMenu contextMenu = new ContextMenu();
-        contextMenu.getItems().add(menuItem);
-        return contextMenu;
-    }
-
-    public void clearFiles() {
-        fileListView.getItems().removeAll(fileListView.getItems());
-        clearFileDetails();
-    }
-
-    private void clearFileDetails() {
-        metadataTableView.getItems().removeAll(metadataTableView.getItems());
-        initializeFileDetails();
-    }
-
-    public void exitProgram() {
-        System.exit(0);
     }
 }
