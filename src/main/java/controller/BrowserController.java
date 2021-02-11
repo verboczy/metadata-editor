@@ -165,4 +165,8 @@ public class BrowserController implements Initializable {
         metadataTableView.getItems().removeAll(metadataTableView.getItems());
         initializeFileDetails();
     }
+
+    public void exitProgram() {
+        System.exit(0);
+    }
 }
