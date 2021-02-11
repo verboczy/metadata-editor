@@ -56,7 +56,7 @@ public class BrowserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeFileLabels();
+        initializeFileDetails();
         initializeSelectedFiles();
     }
 
@@ -96,7 +96,7 @@ public class BrowserController implements Initializable {
         }
     }
 
-    private void initializeFileLabels() {
+    private void initializeFileDetails() {
         fileNameLabel.setText("");
         fileSizeLabel.setText("");
         fileCreationLabel.setText("");
@@ -111,10 +111,11 @@ public class BrowserController implements Initializable {
                 metadataTableView.setContextMenu(getContextMenu(menuItem));
             }
         });
+        metadataTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Needed, to have only the defined columns.
     }
 
     private void handleFileDetails() {
-        initializeFileLabels();
+        initializeFileDetails();
         fileNameLabel.setText(selectedFile.getName());
         fileSizeLabel.setText(String.format("%d bytes", selectedFile.length()));
         try {
@@ -162,6 +163,6 @@ public class BrowserController implements Initializable {
 
     private void clearFileDetails() {
         metadataTableView.getItems().removeAll(metadataTableView.getItems());
-        initializeFileLabels();
+        initializeFileDetails();
     }
 }
