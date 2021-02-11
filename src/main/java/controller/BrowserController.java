@@ -66,6 +66,14 @@ public class BrowserController implements Initializable {
         fileListView.getSelectionModel().selectedItemProperty().addListener((selectedItem, oldValue, newValue) -> {
             if (newValue != null) {
                 selectedFile = newValue;
+
+                MenuItem menuItem = new MenuItem("Clear");
+                menuItem.setOnAction((ActionEvent event) -> {
+                    clearFileDetails();
+                    fileListView.getItems().remove(newValue);
+                });
+                fileListView.setContextMenu(getContextMenu(menuItem));
+
                 handleFileDetails();
             }
         });
@@ -148,8 +156,12 @@ public class BrowserController implements Initializable {
     }
 
     public void clearFiles() {
-        metadataTableView.getItems().removeAll(metadataTableView.getItems());
         fileListView.getItems().removeAll(fileListView.getItems());
+        clearFileDetails();
+    }
+
+    private void clearFileDetails() {
+        metadataTableView.getItems().removeAll(metadataTableView.getItems());
         initializeFileLabels();
     }
 }
