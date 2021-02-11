@@ -8,8 +8,6 @@ Somehow I need to track these tasks, and this todo file seemed to be the most tr
   + Add metadata for a file without metadata.
   + Delete a category.
   + Rename a category.
-+ Change tree view to file browser.
-+ Why are there three columns in table view? I want only two.
 + Resize table's column if text is too long.
   + Automatically or is it enough if the user can make it wider?
 + Search by metadata
