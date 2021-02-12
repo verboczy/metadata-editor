@@ -9,7 +9,7 @@
    <children>
       <Label layoutX="48.0" layoutY="73.0" text="Category:" />
       <Label layoutX="48.0" layoutY="135.0" text="Value:" />
-      <TextField fx:id="categoryTextField" editable="false" layoutX="136.0" layoutY="78.0" />
+      <TextField fx:id="categoryTextField" layoutX="136.0" layoutY="78.0" />
       <TextField fx:id="metadataValueTextField" layoutX="136.0" layoutY="131.0" prefHeight="25.0" prefWidth="377.0" />
       <Button fx:id="editButton" layoutX="136.0" layoutY="188.0" mnemonicParsing="false" onAction="#editMetadata" text="Edit" />
    </children>

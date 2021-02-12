@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -37,6 +38,7 @@
                   <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="20.0" />
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
                   <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="20.0" />
+                  <Button layoutX="21.0" layoutY="212.0" mnemonicParsing="false" onAction="#addNewCategory" text="Add new category" />
                   <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="220.0" prefWidth="335.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                       <placeholder>
                           <Label text="No metadata is set for this file." />

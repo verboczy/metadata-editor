@@ -140,6 +140,12 @@ public class BrowserController implements Initializable {
         }
     }
 
+    public void addNewCategory() {
+        if (selectedFile != null) {
+            openMetadataEditor("", "");
+        }
+    }
+
     // Helper methods
     private void handleFileDetails() {
         initializeFileDetails();
