@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import metadata.Metadata;
@@ -145,6 +146,7 @@ public class BrowserController implements Initializable {
             Stage searchStage = new Stage();
             searchStage.setTitle("Search by metadata");
             searchStage.initStyle(StageStyle.DECORATED);
+            searchStage.initModality(Modality.APPLICATION_MODAL);
             searchStage.setScene(new Scene(root, 600, 400));
             searchStage.show();
         } catch (IOException e) {
@@ -154,7 +156,8 @@ public class BrowserController implements Initializable {
 
     public void addNewCategory() {
         String newCategory = newCategoryTextField.getText();
-        if (selectedFile != null && metadataReader.isCategoryUnique(Paths.get(selectedFile.getPath()), newCategory)) {
+        Path path = Paths.get(selectedFile.getPath());
+        if (selectedFile != null && metadataReader.isCategoryUnique(path, newCategory)) {
             openMetadataEditor(newCategory, "");
         }
     }
@@ -169,9 +172,7 @@ public class BrowserController implements Initializable {
             BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             fileCreationLabel.setText(attr.creationTime().toString());
             fileLastModifiedLabel.setText(attr.lastModifiedTime().toString());
-            MetadataReader metadataReader = new MetadataReader();
-            ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
-            metadataTableView.setItems(metadataList);
+            loadMetadata(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -191,6 +192,11 @@ public class BrowserController implements Initializable {
     }
 
     // Metadata
+    public void loadMetadata(Path path) {
+        ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
+        metadataTableView.setItems(metadataList);
+    }
+
     private void openMetadataEditor(String category, String value) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
@@ -200,9 +206,11 @@ public class BrowserController implements Initializable {
             editorController.setCategoryText(category);
             editorController.setMetadataValueText(value);
             editorController.setPath(Paths.get(selectedFile.getPath()));
+            editorController.setBrowserController(this);
 
             Stage editorStage = new Stage();
             editorStage.initStyle(StageStyle.DECORATED);
+            editorStage.initModality(Modality.APPLICATION_MODAL);
             editorStage.setScene(new Scene(root, 600, 400));
             editorStage.show();
         } catch (IOException e) {
@@ -211,6 +219,8 @@ public class BrowserController implements Initializable {
     }
 
     private void deleteMetadata(String category) {
-        metadataWriter.delete(Paths.get(selectedFile.getPath()), category);
+        Path path = Paths.get(selectedFile.getPath());
+        metadataWriter.delete(path, category);
+        loadMetadata(path);
     }
 }

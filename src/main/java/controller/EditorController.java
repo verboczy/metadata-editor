@@ -2,7 +2,11 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import metadata.Metadata;
 import metadata.MetadataWriter;
 
 import java.net.URL;
@@ -13,12 +17,15 @@ public class EditorController implements Initializable {
 
     @FXML
     private TextField categoryTextField;
-
     @FXML
     private TextField metadataValueTextField;
 
-    private MetadataWriter metadataWriter;
+    @FXML
+    private Button editButton;
+
     private Path path;
+    private MetadataWriter metadataWriter;
+    private BrowserController browserController;
 
     public void setPath(Path path) {
         this.path = path;
@@ -37,11 +44,14 @@ public class EditorController implements Initializable {
         metadataValueTextField.setText(metadataValue);
     }
 
+    public void setBrowserController(BrowserController browserController) {
+        this.browserController = browserController;
+    }
 
-    @FXML
-    private void editMetadata() {
+    public void editMetadata() {
         metadataWriter.write(path, categoryTextField.getText(), metadataValueTextField.getText());
-        // TODO 1. close the window on success
-        // TODO 2. Refresh file's data
+        browserController.loadMetadata(path);
+        Stage stage = (Stage) editButton.getScene().getWindow();
+        stage.close();
     }
 }
