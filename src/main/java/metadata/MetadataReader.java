@@ -29,4 +29,15 @@ public class MetadataReader {
 
         return result;
     }
+
+    public boolean isCategoryUnique(Path path, String category) {
+        UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+        try {
+            List<String> metadataList = fileAttributeView.list();
+            return !metadataList.contains(category);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

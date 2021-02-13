@@ -10,6 +10,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -28,18 +29,18 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label layoutX="14.0" layoutY="14.0" text="Details" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                  <Label layoutX="22.0" layoutY="54.0" text="Name:" AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="14.0" layoutY="14.0" text="Details" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+                  <Label layoutX="22.0" layoutY="54.0" text="Name:" AnchorPane.leftAnchor="15.0" />
                   <Label fx:id="fileNameLabel" layoutX="126.0" layoutY="53.0" text="name of the file" />
-                  <Label layoutX="27.0" layoutY="85.0" text="Size:" AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="27.0" layoutY="85.0" text="Size:" AnchorPane.leftAnchor="15.0" />
                   <Label fx:id="fileSizeLabel" layoutX="126.0" layoutY="85.0" text="size of the file" />
-                  <Label layoutX="21.0" layoutY="120.0" text="Created: " AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="21.0" layoutY="120.0" text="Created: " AnchorPane.leftAnchor="15.0" />
                   <Label fx:id="fileCreationLabel" layoutX="126.0" layoutY="120.0" text="creation of the file" />
-                  <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="21.0" layoutY="154.0" text="Last modified:" AnchorPane.leftAnchor="15.0" />
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
-                  <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="20.0" />
-                  <Button layoutX="21.0" layoutY="212.0" mnemonicParsing="false" onAction="#addNewCategory" text="Add new category" />
-                  <TableView fx:id="metadataTableView" layoutX="16.0" layoutY="228.0" prefHeight="220.0" prefWidth="335.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="15.0" />
+                  <Button layoutX="337.0" layoutY="434.0" mnemonicParsing="false" onAction="#addNewCategory" text="Add new category" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                  <TableView fx:id="metadataTableView" layoutX="15.0" layoutY="208.0" prefHeight="200.0" prefWidth="335.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                       <placeholder>
                           <Label text="No metadata is set for this file." />
                       </placeholder>
@@ -51,6 +52,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
+                  <TextField fx:id="newCategoryTextField" layoutX="21.0" layoutY="433.0" prefHeight="25.0" prefWidth="293.0" promptText="New category" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" />
                </children>
             </AnchorPane>
         </items>

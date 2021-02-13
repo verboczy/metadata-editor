@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import metadata.Metadata;
 import metadata.MetadataReader;
+import metadata.MetadataWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +40,10 @@ public class BrowserController implements Initializable {
     @FXML
     private Label fileLastModifiedLabel;
 
+    // Text fields
+    @FXML
+    private TextField newCategoryTextField;
+
     // List views
     @FXML
     private ListView<File> fileListView;
@@ -53,12 +58,16 @@ public class BrowserController implements Initializable {
 
     private File selectedFile;
     private FileChooser fileChooser;
+    private MetadataWriter metadataWriter;
+    private MetadataReader metadataReader;
 
     // Initialization
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileDetails();
         initializeSelectedFiles();
+        metadataWriter = new MetadataWriter();
+        metadataReader = new MetadataReader();
     }
 
     private void initializeFileDetails() {
@@ -71,9 +80,12 @@ public class BrowserController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                MenuItem menuItem = new MenuItem("Edit");
-                menuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
-                metadataTableView.setContextMenu(getContextMenu(menuItem));
+                MenuItem editMenuItem = new MenuItem("Edit");
+                editMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
+
+                MenuItem deleteMenuItem = new MenuItem("Delete");
+                deleteMenuItem.setOnAction((ActionEvent event) -> deleteMetadata(newSelection.getCategory()));
+                metadataTableView.setContextMenu(getContextMenu(editMenuItem, deleteMenuItem));
             }
         });
     }
@@ -128,7 +140,7 @@ public class BrowserController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/search.fxml"));
             Parent root = loader.load();
 
-            SearchController editorController = loader.getController();
+            SearchController searchController = loader.getController();
 
             Stage searchStage = new Stage();
             searchStage.setTitle("Search by metadata");
@@ -141,8 +153,9 @@ public class BrowserController implements Initializable {
     }
 
     public void addNewCategory() {
-        if (selectedFile != null) {
-            openMetadataEditor("", "");
+        String newCategory = newCategoryTextField.getText();
+        if (selectedFile != null && metadataReader.isCategoryUnique(Paths.get(selectedFile.getPath()), newCategory)) {
+            openMetadataEditor(newCategory, "");
         }
     }
 
@@ -164,9 +177,11 @@ public class BrowserController implements Initializable {
         }
     }
 
-    private ContextMenu getContextMenu(MenuItem menuItem) {
+    private ContextMenu getContextMenu(MenuItem... menuItems) {
         ContextMenu contextMenu = new ContextMenu();
-        contextMenu.getItems().add(menuItem);
+        for (MenuItem menuItem : menuItems) {
+            contextMenu.getItems().add(menuItem);
+        }
         return contextMenu;
     }
 
@@ -193,5 +208,9 @@ public class BrowserController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteMetadata(String category) {
+        metadataWriter.delete(Paths.get(selectedFile.getPath()), category);
     }
 }

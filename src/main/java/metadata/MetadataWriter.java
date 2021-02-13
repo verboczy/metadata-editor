@@ -17,7 +17,14 @@ public class MetadataWriter {
         }
     }
 
-    // TODO delete category
+    public void delete(Path path, String category) {
+        UserDefinedFileAttributeView userView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+        try {
+            userView.delete(category);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // TODO rename category
 }
