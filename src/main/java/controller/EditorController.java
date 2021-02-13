@@ -15,11 +15,13 @@ import java.util.ResourceBundle;
 
 public class EditorController implements Initializable {
 
+    // Text fields
     @FXML
     private TextField categoryTextField;
     @FXML
     private TextField metadataValueTextField;
 
+    // Button
     @FXML
     private Button editButton;
 
@@ -27,13 +29,13 @@ public class EditorController implements Initializable {
     private MetadataWriter metadataWriter;
     private BrowserController browserController;
 
-    public void setPath(Path path) {
-        this.path = path;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         metadataWriter = new MetadataWriter();
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
     }
 
     public void setCategoryText(String category) {
