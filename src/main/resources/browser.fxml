@@ -41,7 +41,7 @@
                   <Label fx:id="fileLastModifiedLabel" layoutX="126.0" layoutY="155.0" text="last modification of the file" />
                   <Label layoutX="18.0" layoutY="190.0" text="Metadata:" AnchorPane.leftAnchor="15.0" />
                   <Button layoutX="337.0" layoutY="434.0" mnemonicParsing="false" onAction="#addNewCategory" text="Add new category" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-                  <TableView fx:id="metadataTableView" layoutX="15.0" layoutY="208.0" prefHeight="200.0" prefWidth="335.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <TableView fx:id="metadataTableView" layoutX="15.0" layoutY="208.0" prefHeight="200.0" prefWidth="335.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="225.0">
                       <placeholder>
                           <Label text="No metadata is set for this file." />
                       </placeholder>
