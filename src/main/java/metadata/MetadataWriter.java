@@ -26,5 +26,8 @@ public class MetadataWriter {
         }
     }
 
-    // TODO rename category
+    public void rename(Path path, String oldCategory, String newCategory, String value) {
+        delete(path, oldCategory);
+        write(path, newCategory, value);
+    }
 }

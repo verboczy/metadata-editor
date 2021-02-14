@@ -3,10 +3,9 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import metadata.Metadata;
 import metadata.MetadataWriter;
 
 import java.net.URL;
@@ -15,15 +14,15 @@ import java.util.ResourceBundle;
 
 public class EditorController implements Initializable {
 
-    // Text fields
     @FXML
     private TextField categoryTextField;
     @FXML
-    private TextField metadataValueTextField;
-
-    // Button
+    private TextArea metadataValueTextArea;
     @FXML
     private Button editButton;
+
+    private boolean isRename;
+    private String oldCategory;
 
     private Path path;
     private MetadataWriter metadataWriter;
@@ -32,6 +31,15 @@ public class EditorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         metadataWriter = new MetadataWriter();
+    }
+
+    public void setRename(boolean isRename) {
+        this.isRename = isRename;
+        categoryTextField.setEditable(isRename);
+    }
+
+    public void setOldCategory(String category) {
+        this.oldCategory = category;
     }
 
     public void setPath(Path path) {
@@ -43,7 +51,7 @@ public class EditorController implements Initializable {
     }
 
     public void setMetadataValueText(String metadataValue) {
-        metadataValueTextField.setText(metadataValue);
+        metadataValueTextArea.setText(metadataValue);
     }
 
     public void setBrowserController(BrowserController browserController) {
@@ -51,7 +59,11 @@ public class EditorController implements Initializable {
     }
 
     public void editMetadata() {
-        metadataWriter.write(path, categoryTextField.getText(), metadataValueTextField.getText());
+        if (isRename) {
+            metadataWriter.rename(path, oldCategory, categoryTextField.getText(), metadataValueTextArea.getText());
+        } else {
+            metadataWriter.write(path, categoryTextField.getText(), metadataValueTextArea.getText());
+        }
         browserController.loadMetadata(path);
         Stage stage = (Stage) editButton.getScene().getWindow();
         stage.close();

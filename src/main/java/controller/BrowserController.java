@@ -82,11 +82,15 @@ public class BrowserController implements Initializable {
         metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 MenuItem editMenuItem = new MenuItem("Edit");
-                editMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue()));
+                editMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue(), false));
+
+                MenuItem renameMenuItem = new MenuItem("Rename");
+                renameMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue(), true));
 
                 MenuItem deleteMenuItem = new MenuItem("Delete");
                 deleteMenuItem.setOnAction((ActionEvent event) -> deleteMetadata(newSelection.getCategory()));
-                metadataTableView.setContextMenu(getContextMenu(editMenuItem, deleteMenuItem));
+
+                metadataTableView.setContextMenu(getContextMenu(editMenuItem, renameMenuItem, deleteMenuItem));
             }
         });
     }
@@ -158,7 +162,8 @@ public class BrowserController implements Initializable {
         String newCategory = newCategoryTextField.getText();
         Path path = Paths.get(selectedFile.getPath());
         if (selectedFile != null && metadataReader.isCategoryUnique(path, newCategory)) {
-            openMetadataEditor(newCategory, "");
+            openMetadataEditor(newCategory, "", false);
+            newCategoryTextField.setText("");
         }
     }
 
@@ -197,12 +202,14 @@ public class BrowserController implements Initializable {
         metadataTableView.setItems(metadataList);
     }
 
-    private void openMetadataEditor(String category, String value) {
+    private void openMetadataEditor(String category, String value, boolean isRename) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
             Parent root = loader.load();
 
             EditorController editorController = loader.getController();
+            editorController.setRename(isRename);
+            editorController.setOldCategory(category);
             editorController.setCategoryText(category);
             editorController.setMetadataValueText(value);
             editorController.setPath(Paths.get(selectedFile.getPath()));
@@ -211,7 +218,9 @@ public class BrowserController implements Initializable {
             Stage editorStage = new Stage();
             editorStage.initStyle(StageStyle.DECORATED);
             editorStage.initModality(Modality.APPLICATION_MODAL);
-            editorStage.setScene(new Scene(root, 600, 400));
+            editorStage.setResizable(false);
+            editorStage.setTitle("Editor");
+            editorStage.setScene(new Scene(root, 600, 250));
             editorStage.show();
         } catch (IOException e) {
             e.printStackTrace();

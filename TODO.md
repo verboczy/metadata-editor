@@ -4,12 +4,6 @@ This is needed, because after a task is complete, it introduces a couple more ta
 Somehow I need to track these tasks, and this todo file seemed to be the most trivial solution for this.
 
 ## Functionality
-+ Metadata editing.
-  + Add metadata for a file without metadata.
-  + Delete a category.
-  + Rename a category.
-+ Resize table's column if text is too long.
-  + Automatically or is it enough if the user can make it wider?
 + Search by metadata
   + Planning is needed first.
 + Add some styling to the app.
@@ -25,7 +19,6 @@ Somehow I need to track these tasks, and this todo file seemed to be the most tr
 + Write tests.
 
 ## Others
-+ Fix gitignore.
 + Put the code into GitHub repository.
   + Write a readme.md.
   + Use GitHub's Issues feature instead of this TODO file.
