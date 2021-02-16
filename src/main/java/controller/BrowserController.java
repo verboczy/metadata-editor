@@ -18,6 +18,8 @@ import javafx.stage.StageStyle;
 import metadata.Metadata;
 import metadata.MetadataReader;
 import metadata.MetadataWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class BrowserController implements Initializable {
+
+    private static final Logger log = LoggerFactory.getLogger(BrowserController.class);
 
     // Labels
     @FXML
@@ -121,10 +125,12 @@ public class BrowserController implements Initializable {
 
     // Action handler methods
     public void openFile() {
+        log.info("Opening files...");
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
         if (selectedFiles != null) {
             for (File selectedFile : selectedFiles) {
                 if (selectedFile != null) {
+                    log.debug("Selected file: [{}].", selectedFile.getPath());
                     fileListView.getItems().add(selectedFile);
                 }
             }
@@ -132,15 +138,18 @@ public class BrowserController implements Initializable {
     }
 
     public void clearFiles() {
+        log.info("Clearing files...");
         fileListView.getItems().removeAll(fileListView.getItems());
         clearFileDetails();
     }
 
     public void exitProgram() {
+        log.info("Exiting program...");
         System.exit(0);
     }
 
     public void search() {
+        log.info("Searching...");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/search.fxml"));
             Parent root = loader.load();
@@ -159,16 +168,25 @@ public class BrowserController implements Initializable {
     }
 
     public void addNewCategory() {
-        String newCategory = newCategoryTextField.getText();
-        Path path = Paths.get(selectedFile.getPath());
-        if (selectedFile != null && metadataReader.isCategoryUnique(path, newCategory)) {
-            openMetadataEditor(newCategory, "", false);
-            newCategoryTextField.setText("");
+        log.info("Adding new category...");
+        if (selectedFile != null) {
+            String newCategory = newCategoryTextField.getText();
+            Path path = Paths.get(selectedFile.getPath());
+            if (newCategory.isBlank()) {
+                log.debug("Cannot add category [{}] to file [{}], because the category is not valid.", newCategory, path);
+            } else if (!metadataReader.isCategoryUnique(path, newCategory)) {
+                log.debug("Cannot add category [{}] to file [{}], because the category already exists.", newCategory, path);
+            } else {
+                openMetadataEditor(newCategory, "", false);
+                newCategoryTextField.setText("");
+                log.debug("Added new category [{}] to file [{}].", newCategory, path);
+            }
         }
     }
 
     // Helper methods
     private void handleFileDetails() {
+        log.trace("Collecting file details...");
         initializeFileDetails();
         fileNameLabel.setText(selectedFile.getName());
         fileSizeLabel.setText(String.format("%d bytes", selectedFile.length()));
@@ -184,6 +202,7 @@ public class BrowserController implements Initializable {
     }
 
     private ContextMenu getContextMenu(MenuItem... menuItems) {
+        log.trace("Creating context menu...");
         ContextMenu contextMenu = new ContextMenu();
         for (MenuItem menuItem : menuItems) {
             contextMenu.getItems().add(menuItem);
@@ -192,17 +211,20 @@ public class BrowserController implements Initializable {
     }
 
     private void clearFileDetails() {
+        log.trace("Clearing file details...");
         metadataTableView.getItems().removeAll(metadataTableView.getItems());
         initializeFileDetails();
     }
 
     // Metadata
     public void loadMetadata(Path path) {
+        log.trace("Loading metadata...");
         ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
         metadataTableView.setItems(metadataList);
     }
 
     private void openMetadataEditor(String category, String value, boolean isRename) {
+        log.trace("Opening metadata editor...");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
             Parent root = loader.load();
@@ -228,6 +250,7 @@ public class BrowserController implements Initializable {
     }
 
     private void deleteMetadata(String category) {
+        log.info("Deleting metadata...");
         Path path = Paths.get(selectedFile.getPath());
         metadataWriter.delete(path, category);
         loadMetadata(path);

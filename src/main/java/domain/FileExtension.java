@@ -1,6 +1,7 @@
 package domain;
 
 public enum FileExtension {
+    ALL("All files", "*.*"),
     // Image formats
     PNG("PNG files", "*.png"),
     JPG("JPG files", "*.jpg"),
@@ -14,8 +15,7 @@ public enum FileExtension {
     TXT("TXT files", "*.txt"),
     DOC("DOC files", "*.doc"),
     DOCX("DOCX files", "*.docx"),
-    PDF("PDF files", "*.pdf"),
-    ALL("All files", "*.*");
+    PDF("PDF files", "*.pdf");
 
     public final String extensionName;
     public final String extension;

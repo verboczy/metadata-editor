@@ -7,12 +7,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import metadata.MetadataWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.ResourceBundle;
 
 public class EditorController implements Initializable {
+
+    private static final Logger log = LoggerFactory.getLogger(EditorController.class);
 
     @FXML
     private TextField categoryTextField;
@@ -60,8 +64,10 @@ public class EditorController implements Initializable {
 
     public void editMetadata() {
         if (isRename) {
+            log.trace("Renaming category [{}] to [{}] in file [{}].", oldCategory, categoryTextField.getText(), path);
             metadataWriter.rename(path, oldCategory, categoryTextField.getText(), metadataValueTextArea.getText());
         } else {
+            log.trace("Writing [{}] category with [{}] value to file [{}].", categoryTextField.getText(), metadataValueTextArea.getText(), path);
             metadataWriter.write(path, categoryTextField.getText(), metadataValueTextArea.getText());
         }
         browserController.loadMetadata(path);
