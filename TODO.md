@@ -14,6 +14,7 @@ Somehow I need to track these tasks, and this todo file seemed to be the most tr
 
 ## Development
 + Reconsider structure of code.
++ Add validation to buttons, e.g. disable the button if it shouldn't be pressed. 
 + Change system out commands to log calls.
 + Introduce own exceptions and handle them.
 + Write tests.
