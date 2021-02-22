@@ -2,9 +2,11 @@
 
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchController">
@@ -12,13 +14,13 @@
       <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
          <children>
             <Label text="File size" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
+            <CheckBox layoutX="497.0" layoutY="59.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="75.0" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
             <ChoiceBox layoutX="355.0" layoutY="55.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="50.0" />
             <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
             <TextField layoutX="10.0" layoutY="54.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
             <TextField layoutX="265.0" layoutY="55.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="50.0" />
             <ChoiceBox layoutX="96.0" layoutY="54.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
             <Label layoutX="165.0" layoutY="58.0" prefHeight="25.0" prefWidth="80.0" text="&lt;= file size &lt;=" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="50.0" />
-            <CheckBox layoutX="497.0" layoutY="59.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="75.0" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
          </children>
       </AnchorPane>
       <Separator layoutX="74.0" layoutY="178.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0" />
@@ -46,5 +48,36 @@
          </children>
       </AnchorPane>
       <Separator layoutX="38.0" layoutY="344.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="315.0" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="315.0">
+         <children>
+            <Label text="Creation date" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
+            <CheckBox mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+            <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+            <DatePicker promptText="After" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0">
+               <tooltip>
+                  <Tooltip text="Created after this date (inclusive)" />
+               </tooltip>
+            </DatePicker>
+            <DatePicker promptText="Before" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="50.0">
+               <tooltip>
+                  <Tooltip text="Created before this date (inclusive)" />
+               </tooltip>
+            </DatePicker>
+            <Label text="Last modification date" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+            <CheckBox mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0" />
+            <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0" />
+            <DatePicker promptText="After" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="135.0">
+               <tooltip>
+                  <Tooltip text="Last modified after this date (inclusive)" />
+               </tooltip>
+            </DatePicker>
+            <DatePicker promptText="Before" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="135.0">
+               <tooltip>
+                  <Tooltip text="Last modified before this date (inclusive)" />
+               </tooltip>
+            </DatePicker>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="48.0" layoutY="354.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="500.0" />
    </children>
 </AnchorPane>
