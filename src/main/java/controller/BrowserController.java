@@ -160,7 +160,7 @@ public class BrowserController implements Initializable {
             searchStage.setTitle("Search by metadata");
             searchStage.initStyle(StageStyle.DECORATED);
             searchStage.initModality(Modality.APPLICATION_MODAL);
-            searchStage.setScene(new Scene(root, 600, 800));
+            searchStage.setScene(new Scene(root, 600, 860));
             searchStage.show();
         } catch (IOException e) {
             e.printStackTrace();

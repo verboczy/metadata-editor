@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -13,24 +14,37 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchController">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="860.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SearchController">
     <content>
-        <AnchorPane prefHeight="800.0" prefWidth="600.0">
+        <AnchorPane prefHeight="860.0" prefWidth="600.0">
             <children>
-                <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+            <AnchorPane prefHeight="80.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <Label text="Root folder" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                  <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="25.0" />
+                  <TextField fx:id="rootFolderTextField" editable="false" prefWidth="300.0" promptText="Root folder" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="40.0" />
+                  <Button mnemonicParsing="false" onAction="#selectRootFolder" text="Select root folder" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="40.0" />
+               </children>
+            </AnchorPane>
+            <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="85.0">
+               <padding>
+                  <Insets top="1.0" />
+               </padding>
+            </Separator>
+                <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="85.0">
                     <children>
                         <Label text="File size" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
-                        <CheckBox layoutX="497.0" layoutY="59.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="75.0" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
-                        <ChoiceBox layoutX="355.0" layoutY="55.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="50.0" />
+                        <CheckBox fx:id="fileSizeEnabledCheckBox" layoutX="497.0" layoutY="59.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="75.0" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-                        <TextField layoutX="10.0" layoutY="54.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
-                        <TextField layoutX="265.0" layoutY="55.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="50.0" />
-                        <ChoiceBox layoutX="96.0" layoutY="54.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
+                        <TextField fx:id="fileSizeLowerBoundTextField" layoutX="10.0" layoutY="54.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="50.0" />
+                        <ChoiceBox fx:id="lowerBoundChoiceBox" layoutX="96.0" layoutY="54.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
                         <Label layoutX="165.0" layoutY="58.0" prefHeight="25.0" prefWidth="80.0" text="&lt;= file size &lt;=" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="50.0" />
+                        <TextField fx:id="fileSizeUpperBoundTextField" layoutX="265.0" layoutY="55.0" prefHeight="25.0" prefWidth="75.0" AnchorPane.leftAnchor="275.0" AnchorPane.topAnchor="50.0" />
+                        <ChoiceBox fx:id="upperBoundChoiceBox" layoutX="355.0" layoutY="55.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="50.0" />
                     </children>
                 </AnchorPane>
-                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0" />
-                <AnchorPane prefHeight="210.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
+                <AnchorPane prefHeight="210.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0">
                     <children>
                         <Label text="Extension" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <CheckBox layoutX="490.0" layoutY="63.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="75.0" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
@@ -53,8 +67,8 @@
                         <TextField layoutX="29.0" layoutY="161.0" prefHeight="20.0" prefWidth="60.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="170.0" />
                     </children>
                 </AnchorPane>
-                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="315.0" />
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="315.0">
+                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="395.0" />
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="395.0">
                     <children>
                         <Label text="Creation date" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <CheckBox mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
@@ -84,13 +98,13 @@
                         </DatePicker>
                     </children>
                 </AnchorPane>
-                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="500.0" />
-                <AnchorPane prefHeight="170.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="500.0">
+                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="580.0" />
+                <AnchorPane prefHeight="170.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="580.0">
                     <children>
                         <Label text="Metadata" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <CheckBox mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-                        <TableView prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
+                        <TableView prefHeight="120.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
                             <placeholder>
                                 <Label text="No metadata is given yet. Right click to add." />
                             </placeholder>
@@ -104,10 +118,10 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="680.0" />
-                <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="680.0">
+                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="780.0" />
+                <AnchorPane prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="780.0">
                     <children>
-                        <Button mnemonicParsing="false" text="Search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+                        <Button mnemonicParsing="false" onAction="#searchButtonClick" text="Search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
                     </children>
                 </AnchorPane>
             </children>
