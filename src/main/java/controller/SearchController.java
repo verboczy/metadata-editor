@@ -1,13 +1,16 @@
 package controller;
 
 import domain.FileSizeUnit;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Callback;
+import metadata.Metadata;
+import metadata.MetadataCell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,10 +87,26 @@ public class SearchController implements Initializable {
     DatePicker beforeLastModificationDatePicker;
 
     // Metadata elements
+    @FXML
+    CheckBox metadataEnabledCheckBox;
+    @FXML
+    TableView<Metadata> metadataTableView;
+    @FXML
+    TableColumn<Metadata, String> categoryTableColumn;
+    @FXML
+    TableColumn<Metadata, String> valueTableColumn;
+    @FXML
+    TextField newCategoryTextField;
+    @FXML
+    Button addCategoryButton;
+
+    ObservableList<Metadata> metadataList = FXCollections.observableArrayList(); // Starting with empty list
 
     // Search elements
+    @FXML
+    Button searchButton;
 
-
+    //region Initialize
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeFileSizeElements();
@@ -95,10 +114,11 @@ public class SearchController implements Initializable {
         initializeCreationDateElements();
         initializeLastModificationDateElements();
         initializeMetadataElements();
+        initializeSearchElements();
     }
 
     private void initializeFileSizeElements() {
-        // If not enabled, then disable all element.
+        // If file size is not enabled, then disable all file size element.
         lowerBoundChoiceBox.disableProperty().bind(fileSizeEnabledCheckBox.selectedProperty().not());
         upperBoundChoiceBox.disableProperty().bind(fileSizeEnabledCheckBox.selectedProperty().not());
         fileSizeLowerBoundTextField.disableProperty().bind(fileSizeEnabledCheckBox.selectedProperty().not());
@@ -107,27 +127,25 @@ public class SearchController implements Initializable {
         // Set file size unit choice box values.
         lowerBoundChoiceBox.getItems().addAll(FileSizeUnit.getAbbreviations());
         upperBoundChoiceBox.getItems().addAll(FileSizeUnit.getAbbreviations());
-        // Make megabyte (MB) the default one.
+        // Make megabyte (MB) the default value.
         lowerBoundChoiceBox.setValue(FileSizeUnit.MEGABYTE.getAbbreviation());
         upperBoundChoiceBox.setValue(FileSizeUnit.MEGABYTE.getAbbreviation());
 
         // Make lower bound and upper bound file size unit choice boxes change together.
         lowerBoundChoiceBox.getSelectionModel().selectedItemProperty().addListener((a, oldValue, newValue) -> {
             if (newValue != null) {
-                log.info("lower");
                 upperBoundChoiceBox.setValue(newValue);
             }
         });
         upperBoundChoiceBox.getSelectionModel().selectedItemProperty().addListener((a, oldValue, newValue) -> {
             if (newValue != null) {
-                log.info("upper");
                 lowerBoundChoiceBox.setValue(newValue);
             }
         });
     }
 
     private void initializeExtensionElements() {
-        // If not enabled, then disable all element.
+        // If extensions are not enabled, then disable all extension element.
         pngCheckBox.disableProperty().bind(extensionEnabledCheckBox.selectedProperty().not());
         jpgCheckBox.disableProperty().bind(extensionEnabledCheckBox.selectedProperty().not());
         mp3CheckBox.disableProperty().bind(extensionEnabledCheckBox.selectedProperty().not());
@@ -152,9 +170,38 @@ public class SearchController implements Initializable {
     }
 
     private void initializeMetadataElements() {
+        metadataTableView.setEditable(true);
 
+        Callback<TableColumn<Metadata, String>, TableCell<Metadata, String>> cellFactory = p -> new MetadataCell();
+
+        categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        categoryTableColumn.setCellFactory(cellFactory);
+        categoryTableColumn.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setCategory(t.getNewValue()));
+
+        valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueTableColumn.setCellFactory(cellFactory);
+        valueTableColumn.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+
+        metadataTableView.setItems(metadataList);
+
+        // If metadata is not enabled, then disable all metadata element.
+        metadataTableView.disableProperty().bind(metadataEnabledCheckBox.selectedProperty().not());
+        newCategoryTextField.disableProperty().bind(metadataEnabledCheckBox.selectedProperty().not());
+        addCategoryButton.disableProperty().bind(metadataEnabledCheckBox.selectedProperty().not());
     }
 
+    private void initializeSearchElements() {
+        searchButton.disableProperty().bind(
+                fileSizeEnabledCheckBox.selectedProperty().not()
+                        .and(extensionEnabledCheckBox.selectedProperty().not())
+                        .and(creationDateEnabledCheckBox.selectedProperty().not())
+                        .and(lastModificationDateEnabledCheckBox.selectedProperty().not())
+                        .and(metadataEnabledCheckBox.selectedProperty().not())
+        );
+    }
+    //endregion
+
+    //region Event handlers
     public void selectRootFolder() {
         directoryChooser = new DirectoryChooser();
         File directory = directoryChooser.showDialog(null);
@@ -162,7 +209,13 @@ public class SearchController implements Initializable {
         rootFolderTextField.setText(directory.getAbsolutePath());
     }
 
+    public void addNewCategory() {
+        metadataList.add(new Metadata(newCategoryTextField.getText(), ""));
+        newCategoryTextField.clear();
+    }
+
     public void searchButtonClick() {
         log.info("unimplemented yet");
     }
+    //endregion
 }

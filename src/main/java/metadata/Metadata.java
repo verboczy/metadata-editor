@@ -1,27 +1,29 @@
 package metadata;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Metadata {
-    private String category;
-    private String value;
+    private SimpleStringProperty  category;
+    private SimpleStringProperty value;
 
     public Metadata(String category, String value) {
-        this.category = category;
-        this.value = value;
+        this.category = new SimpleStringProperty(category);
+        this.value = new SimpleStringProperty(value);
     }
 
     public String getValue() {
-        return value;
+        return value.get();
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value.set(value);
     }
 
     public String getCategory() {
-        return category;
+        return category.get();
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        this.category.set(category);
     }
 }

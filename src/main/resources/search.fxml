@@ -102,26 +102,28 @@
                 <AnchorPane prefHeight="170.0" prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="580.0">
                     <children>
                         <Label text="Metadata" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
-                        <CheckBox mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+                        <CheckBox fx:id="metadataEnabledCheckBox" mnemonicParsing="false" text="Enabled" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-                        <TableView prefHeight="120.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
+                        <TableView fx:id="metadataTableView" prefHeight="120.0" prefWidth="200.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0">
                             <placeholder>
                                 <Label text="No metadata is given yet. Right click to add." />
                             </placeholder>
                             <columns>
-                                <TableColumn prefWidth="75.0" text="Category" />
-                                <TableColumn prefWidth="75.0" text="Value" />
+                                <TableColumn fx:id="categoryTableColumn" prefWidth="75.0" text="Category" />
+                                <TableColumn fx:id="valueTableColumn" prefWidth="75.0" text="Value" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                         </TableView>
+                  <TextField fx:id="newCategoryTextField" promptText="Category" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="180.0" />
+                  <Button fx:id="addCategoryButton" mnemonicParsing="false" onAction="#addNewCategory" text="Add category" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="180.0" />
                     </children>
                 </AnchorPane>
-                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="780.0" />
-                <AnchorPane prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="780.0">
+                <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="800.0" />
+                <AnchorPane prefHeight="80.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="800.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#searchButtonClick" text="Search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonClick" text="Search" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
                     </children>
                 </AnchorPane>
             </children>
