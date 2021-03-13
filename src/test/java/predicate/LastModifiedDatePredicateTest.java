@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LastModifiedDatePredicateTest {
 
-    private static final File txtFile = new File("src/test/resources/predicate/example.txt"); // Last modified on 2021-03-12
+    private static final File file = new File("src/test/resources/predicate/example.asd"); // Last modified on 2021-03-13
 
     //region Arguments
     private static Stream<Arguments> lastModifiedDateArguments() {
@@ -23,15 +23,15 @@ public class LastModifiedDatePredicateTest {
                 Arguments.of("Disabled",                    false, LocalDate.now(),                                    LocalDate.now(),                                   true),
                 Arguments.of("Disabled - impossible dates", false, LocalDate.now().plusWeeks(1),                       LocalDate.now().minusWeeks(1),                     true),
                 Arguments.of("Null dates",                  true,  null,                                               null,                                              true),
-                Arguments.of("Null before",                 true,  LocalDate.of(2021, 3, 11),    null,                                              true),
-                Arguments.of("Null after",                  true,  null,                                               LocalDate.of(2021, 3, 13),   true),
-                Arguments.of("Same day after",              true,  LocalDate.of(2021, 3, 12),    null,                                              true),
-                Arguments.of("Same day before",             true,  null,                                               LocalDate.of(2021, 3, 12),   true),
-                Arguments.of("Same day",                    true,  LocalDate.of(2021, 3, 12),    LocalDate.of(2021, 3, 12),   true),
-                Arguments.of("In between",                  true,  LocalDate.of(2021, 3, 11),    LocalDate.of(2021, 3, 13),   true),
-                Arguments.of("Not after",                   true,  LocalDate.of(2021, 3, 13),    null,                                              false),
-                Arguments.of("Not before",                  true,  null,                                               LocalDate.of(2021, 3, 11),   false),
-                Arguments.of("In between - swapped",        true,  LocalDate.of(2021, 3, 13),    LocalDate.of(2021, 3, 11),   false)
+                Arguments.of("Null before",                 true,  LocalDate.of(2021, 3, 12),    null,                                              true),
+                Arguments.of("Null after",                  true,  null,                                               LocalDate.of(2021, 3, 14),   true),
+                Arguments.of("Same day after",              true,  LocalDate.of(2021, 3, 13),    null,                                              true),
+                Arguments.of("Same day before",             true,  null,                                               LocalDate.of(2021, 3, 13),   true),
+                Arguments.of("Same day",                    true,  LocalDate.of(2021, 3, 13),    LocalDate.of(2021, 3, 13),   true),
+                Arguments.of("In between",                  true,  LocalDate.of(2021, 3, 12),    LocalDate.of(2021, 3, 14),   true),
+                Arguments.of("Not after",                   true,  LocalDate.of(2021, 3, 14),    null,                                              false),
+                Arguments.of("Not before",                  true,  null,                                               LocalDate.of(2021, 3, 12),   false),
+                Arguments.of("In between - swapped",        true,  LocalDate.of(2021, 3, 14),    LocalDate.of(2021, 3, 12),   false)
         );
         // @formatter:on
     }
@@ -46,7 +46,7 @@ public class LastModifiedDatePredicateTest {
         final LastModifiedDatePredicate lastModifiedDatePredicate = new LastModifiedDatePredicate(enabled, afterDate, beforeDate);
 
         // When
-        final boolean actual = lastModifiedDatePredicate.getPredicate().test(txtFile);
+        final boolean actual = lastModifiedDatePredicate.getPredicate().test(file);
 
         // Then
         assertEquals(expected, actual);
