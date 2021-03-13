@@ -60,9 +60,9 @@
                         <CheckBox fx:id="mkvCheckBox" layoutX="277.0" layoutY="105.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="50.0" text=".mkv" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="110.0" />
                         <Label prefHeight="20.0" prefWidth="60.0" text="Document:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="140.0" />
                         <CheckBox fx:id="txtCheckBox" layoutX="161.0" layoutY="132.0" mnemonicParsing="false" text=".txt" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="140.0" />
-                        <CheckBox fx:id="docCheckBox" layoutX="212.0" layoutY="141.0" mnemonicParsing="false" text="doc" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="140.0" />
-                        <CheckBox fx:id="docxCheckBox" layoutX="277.0" layoutY="141.0" mnemonicParsing="false" text="docx" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="140.0" />
-                        <CheckBox fx:id="pdfCheckBox" layoutX="359.0" layoutY="141.0" mnemonicParsing="false" text="pdf" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="140.0" />
+                        <CheckBox fx:id="docCheckBox" layoutX="212.0" layoutY="141.0" mnemonicParsing="false" text=".doc" AnchorPane.leftAnchor="175.0" AnchorPane.topAnchor="140.0" />
+                        <CheckBox fx:id="docxCheckBox" layoutX="277.0" layoutY="141.0" mnemonicParsing="false" text=".docx" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="140.0" />
+                        <CheckBox fx:id="pdfCheckBox" layoutX="359.0" layoutY="141.0" mnemonicParsing="false" text=".pdf" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="140.0" />
                         <Label prefHeight="20.0" prefWidth="60.0" text="Other:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="170.0" />
                         <TextField fx:id="otherExtensionTextField" layoutX="29.0" layoutY="161.0" prefHeight="20.0" prefWidth="60.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="170.0" />
                     </children>

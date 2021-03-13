@@ -119,7 +119,7 @@ public class BrowserController implements Initializable {
 
         fileChooser = new FileChooser();
         for (FileExtension fileExtension : FileExtension.values()) {
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(fileExtension.extensionName, fileExtension.extension));
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(fileExtension.getExtensionName(), fileExtension.getExtensionWithStarDot()));
         }
     }
 
