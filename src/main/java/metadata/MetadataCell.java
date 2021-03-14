@@ -4,7 +4,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 
 // This class is based on this https://docs.oracle.com/javafx/2/ui_controls/table-view.htm document's Example 12-11 Alternative Solution Of Cell Editing section
-public class MetadataCell extends TableCell<Metadata, String> {
+public class MetadataCell extends TableCell<MetadataSearch, String> {
 
     private TextField textField;
 

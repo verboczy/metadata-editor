@@ -1,22 +1,27 @@
 package controller;
 
 import domain.FileSizeUnit;
+import domain.MatchType;
+import domain.MetadataType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
-import metadata.Metadata;
 import metadata.MetadataCell;
+import metadata.MetadataSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SearchController implements Initializable {
 
@@ -90,17 +95,21 @@ public class SearchController implements Initializable {
     @FXML
     CheckBox metadataEnabledCheckBox;
     @FXML
-    TableView<Metadata> metadataTableView;
+    TableView<MetadataSearch> metadataTableView;
     @FXML
-    TableColumn<Metadata, String> categoryTableColumn;
+    TableColumn<MetadataSearch, String> categoryTableColumn;
     @FXML
-    TableColumn<Metadata, String> valueTableColumn;
+    TableColumn<MetadataSearch, String> valueTableColumn;
+    @FXML
+    TableColumn<MetadataSearch, String> typeTableColumn;
+    @FXML
+    TableColumn<MetadataSearch, String> matchTableColumn;
     @FXML
     TextField newCategoryTextField;
     @FXML
     Button addCategoryButton;
 
-    ObservableList<Metadata> metadataList = FXCollections.observableArrayList(); // Starting with empty list
+    ObservableList<MetadataSearch> metadataList = FXCollections.observableArrayList(); // Starting with empty list
 
     // Search elements
     @FXML
@@ -172,7 +181,7 @@ public class SearchController implements Initializable {
     private void initializeMetadataElements() {
         metadataTableView.setEditable(true);
 
-        Callback<TableColumn<Metadata, String>, TableCell<Metadata, String>> cellFactory = p -> new MetadataCell();
+        Callback<TableColumn<MetadataSearch, String>, TableCell<MetadataSearch, String>> cellFactory = p -> new MetadataCell();
 
         categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryTableColumn.setCellFactory(cellFactory);
@@ -181,6 +190,16 @@ public class SearchController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         valueTableColumn.setCellFactory(cellFactory);
         valueTableColumn.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+
+        typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("metadataType"));
+        final ObservableList<String> typeList = FXCollections.observableList(Arrays.stream(MetadataType.values()).map(MetadataType::toString).collect(Collectors.toList()));
+        typeTableColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(typeList));
+        typeTableColumn.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setMetadataType(t.getNewValue()));
+
+        matchTableColumn.setCellValueFactory(new PropertyValueFactory<>("matchType"));
+        final ObservableList<String> matchList = FXCollections.observableList(Arrays.stream(MatchType.values()).map(MatchType::toString).collect(Collectors.toList()));
+        matchTableColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(matchList));
+        matchTableColumn.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setMatchType(t.getNewValue()));
 
         metadataTableView.setItems(metadataList);
 
@@ -210,12 +229,13 @@ public class SearchController implements Initializable {
     }
 
     public void addNewCategory() {
-        metadataList.add(new Metadata(newCategoryTextField.getText(), ""));
+        metadataList.add(new MetadataSearch(newCategoryTextField.getText(), "", MetadataType.STRING.toString(), MatchType.EXACT.toString()));
         newCategoryTextField.clear();
     }
 
     public void searchButtonClick() {
         log.info("unimplemented yet");
+        metadataList.forEach(e -> log.info("{}, {}, {}, {}", e.getCategory(), e.getValue(), e.getMetadataType(), e.getMatchType()));
     }
     //endregion
 }
