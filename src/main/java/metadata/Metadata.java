@@ -3,8 +3,8 @@ package metadata;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Metadata {
-    private SimpleStringProperty  category;
-    private SimpleStringProperty value;
+    private final SimpleStringProperty  category;
+    private final SimpleStringProperty value;
 
     public Metadata(String category, String value) {
         this.category = new SimpleStringProperty(category);

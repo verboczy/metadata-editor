@@ -33,10 +33,10 @@ public class CreationDatePredicate {
                 return true;
             }
 
-            Path path = Paths.get(file.getPath());
+            final Path path = Paths.get(file.getPath());
             try {
-                BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-                LocalDate creationDate = LocalDate.ofInstant(attr.creationTime().toInstant(), ZoneId.systemDefault());
+                final BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+                final LocalDate creationDate = LocalDate.ofInstant(attr.creationTime().toInstant(), ZoneId.systemDefault());
 
                 if (afterCreationDate != null && beforeCreationDate != null) {
                     return !creationDate.isBefore(afterCreationDate) && !creationDate.isAfter(beforeCreationDate);
