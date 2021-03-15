@@ -93,7 +93,7 @@ public class ExtensionPredicateTest {
         final ExtensionPredicate extensionPredicate = new ExtensionPredicate(enabled, png, jpg, mp3, mp4, avi, mkv, txt, doc, docx, pdf, other);
 
         // When
-        boolean actual = extensionPredicate.getPredicate().test(file);
+        final boolean actual = extensionPredicate.getPredicate().test(file);
 
         // Then
         assertEquals(expected, actual);

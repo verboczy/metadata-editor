@@ -13,33 +13,31 @@ public class MetadataWriter {
 
     private static final Logger log = LoggerFactory.getLogger(MetadataWriter.class);
 
-    public void write(Path path, String category, String value) {
+    public void write(final Path path, final String category, final String value) {
         log.info("Writing category [{}] - value [{}], to file [{}]...", category, value, path);
-        UserDefinedFileAttributeView userView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+        final UserDefinedFileAttributeView userView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
         try {
             userView.write(category, Charset.defaultCharset().encode(value));
             log.info("Writing was successful.");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Writing was not successful.");
             log.error(e.getMessage());
-            // TODO throw custom exception
         }
     }
 
-    public void delete(Path path, String category) {
+    public void delete(final Path path, final String category) {
         log.info("Deleting category [{}] from file [{}]...", category, path);
-        UserDefinedFileAttributeView userView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+        final UserDefinedFileAttributeView userView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
         try {
             userView.delete(category);
             log.info("Successfully deleted category.");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Could not delete category.");
             log.error(e.getMessage());
-            // TODO throw custom exception
         }
     }
 
-    public void rename(Path path, String oldCategory, String newCategory, String value) {
+    public void rename(final Path path, final String oldCategory, final String newCategory, final String value) {
         log.info("Renaming category from [{}] to [{}] for file [{}]...", oldCategory, newCategory, path);
         delete(path, oldCategory);
         write(path, newCategory, value);

@@ -21,7 +21,7 @@ public class LastModifiedDatePredicate {
     private final LocalDate afterLastModificationDate;
     private final LocalDate beforeLastModificationDate;
 
-    public LastModifiedDatePredicate(boolean isEnabled, LocalDate afterLastModificationDate, LocalDate beforeLastModificationDate) {
+    public LastModifiedDatePredicate(final boolean isEnabled, final LocalDate afterLastModificationDate, final LocalDate beforeLastModificationDate) {
         this.isEnabled = isEnabled;
         this.afterLastModificationDate = afterLastModificationDate;
         this.beforeLastModificationDate = beforeLastModificationDate;
@@ -33,10 +33,10 @@ public class LastModifiedDatePredicate {
                 return true;
             }
 
-            Path path = Paths.get(file.getPath());
+            final Path path = Paths.get(file.getPath());
             try {
-                BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
-                LocalDate lastModificationDate = LocalDate.ofInstant(attr.lastModifiedTime().toInstant(), ZoneId.systemDefault());
+                final BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+                final LocalDate lastModificationDate = LocalDate.ofInstant(attr.lastModifiedTime().toInstant(), ZoneId.systemDefault());
                 if (afterLastModificationDate != null && beforeLastModificationDate != null) {
                     return !lastModificationDate.isBefore(afterLastModificationDate) && !lastModificationDate.isAfter(beforeLastModificationDate);
                 } else if (afterLastModificationDate != null) {
@@ -45,7 +45,7 @@ public class LastModifiedDatePredicate {
                     // beforeLastModificationDate is surely not null here
                     return !lastModificationDate.isAfter(beforeLastModificationDate);
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 log.warn("Cannot determine last modification time of file [{}].", file.getName());
                 return false;
             }

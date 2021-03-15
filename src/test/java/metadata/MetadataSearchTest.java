@@ -48,7 +48,7 @@ public class MetadataSearchTest {
         final Metadata otherMetadata = new Metadata(otherCategory, otherValue);
 
         // When
-        boolean actual = metadata.matchesMetadata(otherMetadata);
+        final boolean actual = metadata.matchesMetadata(otherMetadata);
 
         // Then
         assertEquals(expected, actual);
@@ -94,7 +94,7 @@ public class MetadataSearchTest {
         final Metadata otherMetadata = new Metadata(imdb, exactScore);
 
         // When
-        boolean actual = metadata.matchesMetadata(otherMetadata);
+        final boolean actual = metadata.matchesMetadata(otherMetadata);
 
         // Then
         assertEquals(expected, actual);
@@ -140,7 +140,7 @@ public class MetadataSearchTest {
         final Metadata otherMetadata = new Metadata(yearCategory, year);
 
         // When
-        boolean actual = metadata.matchesMetadata(otherMetadata);
+        final boolean actual = metadata.matchesMetadata(otherMetadata);
 
         // Then
         assertEquals(expected, actual);

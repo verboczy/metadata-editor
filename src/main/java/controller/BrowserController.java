@@ -68,7 +68,7 @@ public class BrowserController implements Initializable {
 
     // Initialization
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(final URL url, final ResourceBundle resourceBundle) {
         initializeFileDetails();
         initializeSelectedFiles();
         metadataWriter = new MetadataWriter();
@@ -85,13 +85,13 @@ public class BrowserController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
         metadataTableView.getSelectionModel().selectedItemProperty().addListener((a, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                MenuItem editMenuItem = new MenuItem("Edit");
+                final MenuItem editMenuItem = new MenuItem("Edit");
                 editMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue(), false));
 
-                MenuItem renameMenuItem = new MenuItem("Rename");
+                final MenuItem renameMenuItem = new MenuItem("Rename");
                 renameMenuItem.setOnAction((ActionEvent event) -> openMetadataEditor(newSelection.getCategory(), newSelection.getValue(), true));
 
-                MenuItem deleteMenuItem = new MenuItem("Delete");
+                final MenuItem deleteMenuItem = new MenuItem("Delete");
                 deleteMenuItem.setOnAction((ActionEvent event) -> deleteMetadata(newSelection.getCategory()));
 
                 metadataTableView.setContextMenu(getContextMenu(editMenuItem, renameMenuItem, deleteMenuItem));
@@ -106,7 +106,7 @@ public class BrowserController implements Initializable {
             if (newValue != null) {
                 selectedFile = newValue;
 
-                MenuItem menuItem = new MenuItem("Clear");
+                final MenuItem menuItem = new MenuItem("Clear");
                 menuItem.setOnAction((ActionEvent event) -> {
                     clearFileDetails();
                     fileListView.getItems().remove(newValue);
@@ -118,7 +118,7 @@ public class BrowserController implements Initializable {
         });
 
         fileChooser = new FileChooser();
-        for (FileExtension fileExtension : FileExtension.values()) {
+        for (final FileExtension fileExtension : FileExtension.values()) {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(fileExtension.getExtensionName(), fileExtension.getExtensionWithStarDot()));
         }
     }
@@ -126,9 +126,9 @@ public class BrowserController implements Initializable {
     // Action handler methods
     public void openFile() {
         log.info("Opening files...");
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+        final List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
         if (selectedFiles != null) {
-            for (File selectedFile : selectedFiles) {
+            for (final File selectedFile : selectedFiles) {
                 if (selectedFile != null) {
                     log.debug("Selected file: [{}].", selectedFile.getPath());
                     fileListView.getItems().add(selectedFile);
@@ -151,18 +151,16 @@ public class BrowserController implements Initializable {
     public void search() {
         log.info("Searching...");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/search.fxml"));
-            Parent root = loader.load();
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/search.fxml"));
+            final Parent root = loader.load();
 
-            SearchController searchController = loader.getController();
-
-            Stage searchStage = new Stage();
+            final Stage searchStage = new Stage();
             searchStage.setTitle("Search by metadata");
             searchStage.initStyle(StageStyle.DECORATED);
             searchStage.initModality(Modality.APPLICATION_MODAL);
             searchStage.setScene(new Scene(root, 600, 860));
             searchStage.show();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
@@ -170,8 +168,8 @@ public class BrowserController implements Initializable {
     public void addNewCategory() {
         log.info("Adding new category...");
         if (selectedFile != null) {
-            String newCategory = newCategoryTextField.getText();
-            Path path = Paths.get(selectedFile.getPath());
+            final String newCategory = newCategoryTextField.getText();
+            final Path path = Paths.get(selectedFile.getPath());
             if (newCategory.isBlank()) {
                 log.debug("Cannot add category [{}] to file [{}], because the category is not valid.", newCategory, path);
             } else if (!metadataReader.isCategoryUnique(path, newCategory)) {
@@ -191,20 +189,20 @@ public class BrowserController implements Initializable {
         fileNameLabel.setText(selectedFile.getName());
         fileSizeLabel.setText(String.format("%d bytes", selectedFile.length()));
         try {
-            Path path = Paths.get(selectedFile.getPath());
-            BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
+            final Path path = Paths.get(selectedFile.getPath());
+            final BasicFileAttributes attr = Files.readAttributes(path, BasicFileAttributes.class);
             fileCreationLabel.setText(attr.creationTime().toString());
             fileLastModifiedLabel.setText(attr.lastModifiedTime().toString());
             loadMetadata(path);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
-    private ContextMenu getContextMenu(MenuItem... menuItems) {
+    private ContextMenu getContextMenu(final MenuItem... menuItems) {
         log.trace("Creating context menu...");
-        ContextMenu contextMenu = new ContextMenu();
-        for (MenuItem menuItem : menuItems) {
+        final ContextMenu contextMenu = new ContextMenu();
+        for (final MenuItem menuItem : menuItems) {
             contextMenu.getItems().add(menuItem);
         }
         return contextMenu;
@@ -217,19 +215,19 @@ public class BrowserController implements Initializable {
     }
 
     // Metadata
-    public void loadMetadata(Path path) {
+    public void loadMetadata(final Path path) {
         log.trace("Loading metadata...");
-        ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
+        final ObservableList<Metadata> metadataList = FXCollections.observableArrayList(metadataReader.read(path));
         metadataTableView.setItems(metadataList);
     }
 
-    private void openMetadataEditor(String category, String value, boolean isRename) {
+    private void openMetadataEditor(final String category, final String value, final boolean isRename) {
         log.trace("Opening metadata editor...");
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
-            Parent root = loader.load();
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/editor.fxml"));
+            final Parent root = loader.load();
 
-            EditorController editorController = loader.getController();
+            final EditorController editorController = loader.getController();
             editorController.setRename(isRename);
             editorController.setOldCategory(category);
             editorController.setCategoryText(category);
@@ -237,21 +235,21 @@ public class BrowserController implements Initializable {
             editorController.setPath(Paths.get(selectedFile.getPath()));
             editorController.setBrowserController(this);
 
-            Stage editorStage = new Stage();
+            final Stage editorStage = new Stage();
             editorStage.initStyle(StageStyle.DECORATED);
             editorStage.initModality(Modality.APPLICATION_MODAL);
             editorStage.setResizable(false);
             editorStage.setTitle("Editor");
             editorStage.setScene(new Scene(root, 600, 250));
             editorStage.show();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void deleteMetadata(String category) {
+    private void deleteMetadata(final String category) {
         log.info("Deleting metadata...");
-        Path path = Paths.get(selectedFile.getPath());
+        final Path path = Paths.get(selectedFile.getPath());
         metadataWriter.delete(path, category);
         loadMetadata(path);
     }

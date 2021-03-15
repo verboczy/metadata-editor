@@ -12,7 +12,7 @@ public class FileSizePredicate {
     private final Integer smallerThan;
 
 
-    public FileSizePredicate(boolean isEnabled, FileSizeUnit unit, Integer largerThan, Integer smallerThan) {
+    public FileSizePredicate(final boolean isEnabled, final FileSizeUnit unit, final Integer largerThan, final Integer smallerThan) {
         this.isEnabled = isEnabled;
         this.unit = unit;
         this.largerThan = largerThan;
@@ -26,14 +26,14 @@ public class FileSizePredicate {
             }
 
             if (largerThan != null) {
-                int largerThanBytes = unit.getByteMultiplier() * largerThan;
+                final int largerThanBytes = unit.getByteMultiplier() * largerThan;
                 if (file.length() < largerThanBytes) {
                     return false;
                 }
             }
 
             if (smallerThan != null) {
-                int smallerThanBytes = unit.getByteMultiplier() * smallerThan;
+                final int smallerThanBytes = unit.getByteMultiplier() * smallerThan;
                 return file.length() <= smallerThanBytes;
             }
 

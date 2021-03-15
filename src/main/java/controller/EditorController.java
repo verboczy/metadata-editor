@@ -33,32 +33,32 @@ public class EditorController implements Initializable {
     private BrowserController browserController;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(final URL url, final ResourceBundle resourceBundle) {
         metadataWriter = new MetadataWriter();
     }
 
-    public void setRename(boolean isRename) {
+    public void setRename(final boolean isRename) {
         this.isRename = isRename;
         categoryTextField.setEditable(isRename);
     }
 
-    public void setOldCategory(String category) {
+    public void setOldCategory(final String category) {
         this.oldCategory = category;
     }
 
-    public void setPath(Path path) {
+    public void setPath(final Path path) {
         this.path = path;
     }
 
-    public void setCategoryText(String category) {
+    public void setCategoryText(final String category) {
         categoryTextField.setText(category);
     }
 
-    public void setMetadataValueText(String metadataValue) {
+    public void setMetadataValueText(final String metadataValue) {
         metadataValueTextArea.setText(metadataValue);
     }
 
-    public void setBrowserController(BrowserController browserController) {
+    public void setBrowserController(final BrowserController browserController) {
         this.browserController = browserController;
     }
 
@@ -71,7 +71,7 @@ public class EditorController implements Initializable {
             metadataWriter.write(path, categoryTextField.getText(), metadataValueTextArea.getText());
         }
         browserController.loadMetadata(path);
-        Stage stage = (Stage) editButton.getScene().getWindow();
+        final Stage stage = (Stage) editButton.getScene().getWindow();
         stage.close();
     }
 }

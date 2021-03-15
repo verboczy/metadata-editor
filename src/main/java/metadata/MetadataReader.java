@@ -16,36 +16,36 @@ public class MetadataReader {
 
     private static final Logger log = LoggerFactory.getLogger(MetadataReader.class);
 
-    public List<Metadata> read(Path path) {
+    public List<Metadata> read(final Path path) {
         log.info("Reading metadata of file [{}]...", path);
-        List<Metadata> result = new ArrayList<>();
-        UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+        final List<Metadata> result = new ArrayList<>();
+        final UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
         try {
-            List<String> metadataList = fileAttributeView.list();
-            for (String metadataCategory : metadataList) {
-                ByteBuffer byteBuffer = ByteBuffer.allocate(fileAttributeView.size(metadataCategory));
+            final List<String> metadataList = fileAttributeView.list();
+            for (final String metadataCategory : metadataList) {
+                final ByteBuffer byteBuffer = ByteBuffer.allocate(fileAttributeView.size(metadataCategory));
                 fileAttributeView.read(metadataCategory, byteBuffer);
                 byteBuffer.flip();
-                String metadataValue = Charset.defaultCharset().decode(byteBuffer).toString();
+                final String metadataValue = Charset.defaultCharset().decode(byteBuffer).toString();
                 result.add(new Metadata(metadataCategory, metadataValue));
             }
             log.info("Reading was successful.");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Reading was not successful.");
             log.error(e.getMessage());
-            // TODO throw custom exception
         }
 
         return result;
     }
 
-    public boolean isCategoryUnique(Path path, String category) {
-        UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
+    public boolean isCategoryUnique(final Path path, final String category) {
+        final UserDefinedFileAttributeView fileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
         try {
-            List<String> metadataList = fileAttributeView.list();
+            final List<String> metadataList = fileAttributeView.list();
             return !metadataList.contains(category);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (final IOException e) {
+            log.error("Could not retrieve metadata from file.");
+            log.error(e.getMessage());
             return false;
         }
     }

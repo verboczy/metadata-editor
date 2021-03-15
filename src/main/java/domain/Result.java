@@ -6,7 +6,7 @@ public class Result {
     private final SimpleStringProperty fileName;
     private final SimpleStringProperty absolutePath;
 
-    public Result(String fileName, String absolutePath) {
+    public Result(final String fileName, final String absolutePath) {
         this.fileName = new SimpleStringProperty(fileName);
         this.absolutePath = new SimpleStringProperty(absolutePath);
     }
@@ -19,7 +19,7 @@ public class Result {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(final String fileName) {
         this.fileName.set(fileName);
     }
 
@@ -31,7 +31,7 @@ public class Result {
         return absolutePath;
     }
 
-    public void setAbsolutePath(String absolutePath) {
+    public void setAbsolutePath(final String absolutePath) {
         this.absolutePath.set(absolutePath);
     }
 }

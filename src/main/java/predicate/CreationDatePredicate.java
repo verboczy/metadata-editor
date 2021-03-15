@@ -21,7 +21,7 @@ public class CreationDatePredicate {
     private final LocalDate afterCreationDate;
     private final LocalDate beforeCreationDate;
 
-    public CreationDatePredicate(boolean isEnabled, LocalDate afterCreationDate, LocalDate beforeCreationDate) {
+    public CreationDatePredicate(final boolean isEnabled, final LocalDate afterCreationDate, final LocalDate beforeCreationDate) {
         this.isEnabled = isEnabled;
         this.afterCreationDate = afterCreationDate;
         this.beforeCreationDate = beforeCreationDate;
@@ -46,7 +46,7 @@ public class CreationDatePredicate {
                     // beforeCreationDate is surely not null here
                     return !creationDate.isAfter(beforeCreationDate);
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 log.warn("Cannot determine creation time of file [{}].", file.getName());
                 return false;
             }

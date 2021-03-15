@@ -12,8 +12,8 @@ import java.io.IOException;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/browser.fxml"));
+    public void start(final Stage primaryStage) throws IOException {
+        final Parent root = FXMLLoader.load(getClass().getResource("/browser.fxml"));
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setTitle("Metadata Editor");
         primaryStage.setScene(new Scene(root, 800, 500));
@@ -21,7 +21,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 }

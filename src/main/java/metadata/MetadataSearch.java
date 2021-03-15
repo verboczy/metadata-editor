@@ -20,7 +20,7 @@ public class MetadataSearch {
     private final SimpleStringProperty metadataType;
     private final SimpleStringProperty matchType;
 
-    public MetadataSearch(String category, String value, String metadataType, String matchType) {
+    public MetadataSearch(final String category, final String value, final String metadataType, final String matchType) {
         this.category = new SimpleStringProperty(category);
         this.value = new SimpleStringProperty(value);
         this.metadataType = new SimpleStringProperty(metadataType);
@@ -31,7 +31,7 @@ public class MetadataSearch {
         return value.get();
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value.set(value);
     }
 
@@ -39,7 +39,7 @@ public class MetadataSearch {
         return category.get();
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category.set(category);
     }
 
@@ -47,7 +47,7 @@ public class MetadataSearch {
         return metadataType.get();
     }
 
-    public void setMetadataType(String metadataType) {
+    public void setMetadataType(final String metadataType) {
         this.metadataType.set(metadataType);
     }
 
@@ -55,7 +55,7 @@ public class MetadataSearch {
         return matchType.get();
     }
 
-    public void setMatchType(String matchType) {
+    public void setMatchType(final String matchType) {
         this.matchType.set(matchType);
     }
 
@@ -106,7 +106,7 @@ public class MetadataSearch {
                 default:
                     return false;
             }
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             log.warn("Cannot parse the given values (search: [{}], file: [{}]).", this.getValue(), fileMetadata.getValue());
             return false;
         }
@@ -131,7 +131,7 @@ public class MetadataSearch {
                 default:
                     return false;
             }
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             log.warn("Cannot parse the given values (search: [{}], file: [{}]).", this.getValue(), fileMetadata.getValue());
             return false;
         }

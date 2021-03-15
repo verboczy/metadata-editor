@@ -34,7 +34,19 @@ public class ExtensionPredicate {
     private final List<FileExtension> extensionList;
     private final List<String> otherExtensions;
 
-    public ExtensionPredicate(boolean isEnabled, boolean png, boolean jpg, boolean mp3, boolean mp4, boolean avi, boolean mkv, boolean txt, boolean doc, boolean docx, boolean pdf, String other) {
+    public ExtensionPredicate(
+            final boolean isEnabled,
+            final boolean png,
+            final boolean jpg,
+            final boolean mp3,
+            final boolean mp4,
+            final boolean avi,
+            final boolean mkv,
+            final boolean txt,
+            final boolean doc,
+            final boolean docx,
+            final boolean pdf,
+            final String other) {
         this.isEnabled = isEnabled;
         this.png = png;
         this.jpg = jpg;
@@ -57,14 +69,14 @@ public class ExtensionPredicate {
                 return true;
             }
 
-            String extension = FilenameUtils.getExtension(file.getName());
+            final String extension = FilenameUtils.getExtension(file.getName());
             if (otherExtensions.contains(extension)) {
                 return true;
             } else {
                 try {
-                    FileExtension fileExtension = valueOf(extension.toUpperCase());
+                    final FileExtension fileExtension = valueOf(extension.toUpperCase());
                     return extensionList.contains(fileExtension);
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     log.trace("Cannot parse [{}] as a file extension", extension);
                     return false;
                 }
@@ -73,7 +85,7 @@ public class ExtensionPredicate {
     }
 
     private List<FileExtension> getExtensionList() {
-        List<FileExtension> extensionList = new ArrayList<>();
+        final List<FileExtension> extensionList = new ArrayList<>();
 
         if (png) {
             extensionList.add(PNG);

@@ -15,7 +15,7 @@ public class MetadataPredicate {
     private final List<MetadataSearch> metadataList;
     private final MetadataReader metadataReader;
 
-    public MetadataPredicate(boolean isEnabled, List<MetadataSearch> metadataList) {
+    public MetadataPredicate(final boolean isEnabled, final List<MetadataSearch> metadataList) {
         this.isEnabled = isEnabled;
         this.metadataList = metadataList;
         this.metadataReader = new MetadataReader();

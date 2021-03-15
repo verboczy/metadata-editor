@@ -6,7 +6,7 @@ public class Metadata {
     private final SimpleStringProperty  category;
     private final SimpleStringProperty value;
 
-    public Metadata(String category, String value) {
+    public Metadata(final String category, final String value) {
         this.category = new SimpleStringProperty(category);
         this.value = new SimpleStringProperty(value);
     }
@@ -15,7 +15,7 @@ public class Metadata {
         return value.get();
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value.set(value);
     }
 
@@ -23,7 +23,7 @@ public class Metadata {
         return category.get();
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category.set(category);
     }
 }

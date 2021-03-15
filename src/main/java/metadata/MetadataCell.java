@@ -28,7 +28,7 @@ public class MetadataCell extends TableCell<MetadataSearch, String> {
     }
 
     @Override
-    public void updateItem(String item, boolean empty) {
+    public void updateItem(final String item, final boolean empty) {
         super.updateItem(item, empty);
 
         if (empty) {

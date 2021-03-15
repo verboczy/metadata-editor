@@ -7,8 +7,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static domain.FileSizeUnit.*;
@@ -17,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FileSizePredicateTest {
 
     final File testFile = new File("src/test/resources/predicate/example.txt");
-    final List<File> files = Collections.singletonList(testFile);
 
+    //region Arguments
     private static Stream<Arguments> fileSizeArguments() {
         // @formatter:off
         return Stream.of(
@@ -49,18 +47,21 @@ public class FileSizePredicateTest {
         );
         // @formatter:on
     }
+    //endregion
 
+    //region Tests
     @DisplayName("File size predicate tests")
     @ParameterizedTest(name = "{index} - {0}, expected: {5}")
     @MethodSource("fileSizeArguments")
     void fileSizePredicateTest(@SuppressWarnings("unused") final String name, final boolean enabled, final Integer largerThan, final Integer smallerThan, final FileSizeUnit unit, final boolean expected) {
         // Given
-        FileSizePredicate fileSizePredicate = new FileSizePredicate(enabled, unit, largerThan, smallerThan);
+        final FileSizePredicate fileSizePredicate = new FileSizePredicate(enabled, unit, largerThan, smallerThan);
 
         // When
-        boolean actual = files.stream().anyMatch(fileSizePredicate.getPredicate());
+        final boolean actual = fileSizePredicate.getPredicate().test(testFile);
 
         // Then
         assertEquals(expected, actual);
     }
+    //endregion
 }

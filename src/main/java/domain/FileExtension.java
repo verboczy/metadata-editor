@@ -20,7 +20,7 @@ public enum FileExtension {
     private final String extensionName;
     private final String extension;
 
-    FileExtension(String extensionName, String extension) {
+    FileExtension(final String extensionName, final String extension) {
         this.extensionName = extensionName;
         this.extension = extension;
     }

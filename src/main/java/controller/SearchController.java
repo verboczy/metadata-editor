@@ -127,7 +127,7 @@ public class SearchController implements Initializable {
 
     //region Initialize
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(final URL url, final ResourceBundle resourceBundle) {
         initializeFileSizeElements();
         initializeExtensionElements();
         initializeCreationDateElements();
@@ -191,7 +191,7 @@ public class SearchController implements Initializable {
     private void initializeMetadataElements() {
         metadataTableView.setEditable(true);
 
-        Callback<TableColumn<MetadataSearch, String>, TableCell<MetadataSearch, String>> cellFactory = p -> new MetadataCell();
+        final Callback<TableColumn<MetadataSearch, String>, TableCell<MetadataSearch, String>> cellFactory = p -> new MetadataCell();
 
         categoryTableColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         categoryTableColumn.setCellFactory(cellFactory);
@@ -233,7 +233,7 @@ public class SearchController implements Initializable {
     //region Event handlers
     public void selectRootFolder() {
         directoryChooser = new DirectoryChooser();
-        File directory = directoryChooser.showDialog(null);
+        final File directory = directoryChooser.showDialog(null);
         log.info(directory.getAbsolutePath());
         rootFolderTextField.setText(directory.getAbsolutePath());
     }
@@ -252,8 +252,7 @@ public class SearchController implements Initializable {
         final LastModifiedDatePredicate lastModifiedDatePredicate = getLastModifiedDatePredicate();
         final MetadataPredicate metadataPredicate = getMetadataPredicate();
 
-        @SuppressWarnings("unchecked")
-        List<File> foundFiles = ((List<File>) FileUtils.listFiles(new File(rootFolderTextField.getText()), null, true)).stream()
+        @SuppressWarnings("unchecked") final List<File> foundFiles = ((List<File>) FileUtils.listFiles(new File(rootFolderTextField.getText()), null, true)).stream()
                 .filter(fileSizePredicate.getPredicate())
                 .filter(extensionPredicate.getPredicate())
                 .filter(creationDatePredicate.getPredicate())
@@ -266,19 +265,19 @@ public class SearchController implements Initializable {
 
     private void openResultWindow(final List<File> fileList) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/result.fxml"));
-            Parent root = loader.load();
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/result.fxml"));
+            final Parent root = loader.load();
 
-            ResultController resultController = loader.getController();
+            final ResultController resultController = loader.getController();
             resultController.setResults(fileList);
 
-            Stage searchStage = new Stage();
+            final Stage searchStage = new Stage();
             searchStage.setTitle("Results");
             searchStage.initStyle(StageStyle.DECORATED);
             searchStage.initModality(Modality.APPLICATION_MODAL);
             searchStage.setScene(new Scene(root, 800, 400));
             searchStage.show();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
@@ -291,7 +290,7 @@ public class SearchController implements Initializable {
         try {
             lowerBound = Integer.parseInt(fileSizeLowerBoundTextField.getText());
             upperBound = Integer.parseInt(fileSizeUpperBoundTextField.getText());
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             log.warn("Cannot parse file size (lower bound: [{}], upper bound: [{}]).", lowerBound, upperBound);
         }
         return new FileSizePredicate(fileSizeEnabledCheckBox.isSelected(), FileSizeUnit.valueOf(lowerBoundChoiceBox.getValue().toUpperCase()), lowerBound, upperBound);
