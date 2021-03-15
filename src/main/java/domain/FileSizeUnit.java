@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 public enum FileSizeUnit {
     BYTE("byte", 1),
-    KILOBYTE("KB", 1000),
-    MEGABYTE("MB", 1000 * 1000),
-    GIGABYTE("GB", 1000 * 1000 * 100);
+    KB("KB", 1000),
+    MB("MB", 1000 * 1000),
+    GB("GB", 1000 * 1000 * 100);
 
     private final String abbreviation;
     private final int byteMultiplier;

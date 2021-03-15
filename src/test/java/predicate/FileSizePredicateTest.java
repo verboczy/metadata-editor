@@ -23,29 +23,29 @@ public class FileSizePredicateTest {
         // @formatter:off
         return Stream.of(
                 //            TEST CASE NAME                    ENABLED    <= x    x <=     UNIT       EXPECTED
-                Arguments.of("Disabled, 0 <= x <= 0 KB",        false,      0,      0,      KILOBYTE,   true),
-                Arguments.of("Disabled, null <= x <= null KB",  false,      null,   null,   KILOBYTE,   true),
-                Arguments.of("Disabled, 0 <= x <= -6 KB",       false,      0,      -6,     KILOBYTE,   true),
-                Arguments.of("Disabled, 0 <= x <= -6 GB",       false,      0,      -6,     GIGABYTE,   true),
-                Arguments.of("Disabled, 100 <= x <= null GB",   false,      100,    null,   GIGABYTE,   true),
+                Arguments.of("Disabled, 0 <= x <= 0 KB",        false,      0,      0,      KB,   true),
+                Arguments.of("Disabled, null <= x <= null KB",  false,      null,   null,   KB,   true),
+                Arguments.of("Disabled, 0 <= x <= -6 KB",       false,      0,      -6,     KB,   true),
+                Arguments.of("Disabled, 0 <= x <= -6 GB",       false,      0,      -6,     GB,   true),
+                Arguments.of("Disabled, 100 <= x <= null GB",   false,      100,    null,   GB,   true),
                 Arguments.of("Enabled, 100 <= x <= 99 Byte",    true,       100,    99,     BYTE,       false),
                 Arguments.of("Enabled, 0 <= x <= -6 Byte",      true,       0,      -6,     BYTE,       false),
                 Arguments.of("Enabled, 1201 <= x <= null Byte", true,       1201,   null,   BYTE,       false),
                 Arguments.of("Enabled, null <= x <= 1199 Byte", true,       null,   1199,   BYTE,       false),
-                Arguments.of("Enabled, 1 <= x <= 10 MB",        true,       1,      10,     MEGABYTE,   false),
-                Arguments.of("Enabled, 1 <= x <= 10 GB",        true,       1,      10,     GIGABYTE,   false),
+                Arguments.of("Enabled, 1 <= x <= 10 MB",        true,       1,      10,     MB,   false),
+                Arguments.of("Enabled, 1 <= x <= 10 GB",        true,       1,      10,     GB,   false),
                 Arguments.of("Enabled, 1200 <= x <= 1200 Byte", true,       1200,   1200,   BYTE,       true),
                 Arguments.of("Enabled, 1200 <= x <= null Byte", true,       1200,   null,   BYTE,       true),
                 Arguments.of("Enabled, null <= x <= 1200 Byte", true,       null,   1200,   BYTE,       true),
-                Arguments.of("Enabled, 1 <= x <= null KB",      true,       1,      null,   KILOBYTE,   true),
-                Arguments.of("Enabled, null <= x <= 10 KB",     true,       null,   10,     KILOBYTE,   true),
-                Arguments.of("Enabled, 1 <= x <= 10 KB",        true,       1,      10,     KILOBYTE,   true),
-                Arguments.of("Enabled, 0 <= x <= null MB",      true,       0,      null,   MEGABYTE,   true),
-                Arguments.of("Enabled, null <= x <= 1 MB",      true,       null,   1,      MEGABYTE,   true),
-                Arguments.of("Enabled, 0 <= x <= 1 MB",         true,       0,      1,      MEGABYTE,   true),
-                Arguments.of("Enabled, 0 <= x <= null GB",      true,       0,      null,   GIGABYTE,   true),
-                Arguments.of("Enabled, null <= x <= 1 GB",      true,       null,   1,      GIGABYTE,   true),
-                Arguments.of("Enabled, 0 <= x <= 1 GB",         true,       0,      1,      GIGABYTE,   true)
+                Arguments.of("Enabled, 1 <= x <= null KB",      true,       1,      null,   KB,   true),
+                Arguments.of("Enabled, null <= x <= 10 KB",     true,       null,   10,     KB,   true),
+                Arguments.of("Enabled, 1 <= x <= 10 KB",        true,       1,      10,     KB,   true),
+                Arguments.of("Enabled, 0 <= x <= null MB",      true,       0,      null,   MB,   true),
+                Arguments.of("Enabled, null <= x <= 1 MB",      true,       null,   1,      MB,   true),
+                Arguments.of("Enabled, 0 <= x <= 1 MB",         true,       0,      1,      MB,   true),
+                Arguments.of("Enabled, 0 <= x <= null GB",      true,       0,      null,   GB,   true),
+                Arguments.of("Enabled, null <= x <= 1 GB",      true,       null,   1,      GB,   true),
+                Arguments.of("Enabled, 0 <= x <= 1 GB",         true,       0,      1,      GB,   true)
         );
         // @formatter:on
     }
