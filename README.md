@@ -11,10 +11,10 @@ The following image shows the setup.
 
 ![packaging](images/intellij-packaging.png)
 
-After that, `Build -> Build Artifacts... -> Build` will create the runnable jar. 
+After setting that press **Apply**, then **OK**. On the menu bar, press `Build -> Build Artifacts... -> Build`. This will create the runnable jar. 
 To run the application, unfortunately, you can't just double click the icon.
 You have to run from commandline, furthermore, you have to provide it additional parameters.
 
 `java --module-path path_to_javafx_lib_folder --add-modules javafx.controls,javafx.fxml,javafx.graphics -jar name_of_the_file.jar`
 
-It is practical to save this (with the proper modification) into a script file, on Windows to .bat file, on Linus to an .sh file. 
+It is practical to save this (with the proper modification) into a script file, on Windows to *.bat* file, on Linux to an *.sh* file. 
