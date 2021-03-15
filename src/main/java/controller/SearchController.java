@@ -14,12 +14,15 @@ import javafx.stage.DirectoryChooser;
 import javafx.util.Callback;
 import metadata.MetadataCell;
 import metadata.MetadataSearch;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import predicate.*;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -137,8 +140,8 @@ public class SearchController implements Initializable {
         lowerBoundChoiceBox.getItems().addAll(FileSizeUnit.getAbbreviations());
         upperBoundChoiceBox.getItems().addAll(FileSizeUnit.getAbbreviations());
         // Make megabyte (MB) the default value.
-        lowerBoundChoiceBox.setValue(FileSizeUnit.MEGABYTE.getAbbreviation());
-        upperBoundChoiceBox.setValue(FileSizeUnit.MEGABYTE.getAbbreviation());
+        lowerBoundChoiceBox.setValue(FileSizeUnit.MB.getAbbreviation());
+        upperBoundChoiceBox.setValue(FileSizeUnit.MB.getAbbreviation());
 
         // Make lower bound and upper bound file size unit choice boxes change together.
         lowerBoundChoiceBox.getSelectionModel().selectedItemProperty().addListener((a, oldValue, newValue) -> {
@@ -234,8 +237,75 @@ public class SearchController implements Initializable {
     }
 
     public void searchButtonClick() {
-        log.info("unimplemented yet");
-        metadataList.forEach(e -> log.info("{}, {}, {}, {}", e.getCategory(), e.getValue(), e.getMetadataType(), e.getMatchType()));
+        log.info("Searching files...");
+
+        final FileSizePredicate fileSizePredicate = getFileSizePredicate();
+        final ExtensionPredicate extensionPredicate = getExtensionPredicate();
+        final CreationDatePredicate creationDatePredicate = getCreationDatePredicate();
+        final LastModifiedDatePredicate lastModifiedDatePredicate = getLastModifiedDatePredicate();
+        final MetadataPredicate metadataPredicate = getMetadataPredicate();
+
+        @SuppressWarnings("unchecked")
+        List<File> foundFiles = ((List<File>) FileUtils.listFiles(new File(rootFolderTextField.getText()), null, true)).stream()
+                .filter(fileSizePredicate.getPredicate())
+                .filter(extensionPredicate.getPredicate())
+                .filter(creationDatePredicate.getPredicate())
+                .filter(lastModifiedDatePredicate.getPredicate())
+                .filter(metadataPredicate.getPredicate())
+                .collect(Collectors.toList());
+
+        foundFiles.forEach(f -> log.info("Name: {}, path: {}", f.getName(), f.getAbsolutePath()));
+    }
+    //endregion
+
+    //region Get predicates
+    private FileSizePredicate getFileSizePredicate() {
+        int lowerBound = -1;
+        int upperBound = -1;
+        try {
+            lowerBound = Integer.parseInt(fileSizeLowerBoundTextField.getText());
+            upperBound = Integer.parseInt(fileSizeUpperBoundTextField.getText());
+        } catch (NumberFormatException e) {
+            log.warn("Cannot parse file size (lower bound: [{}], upper bound: [{}]).", lowerBound, upperBound);
+        }
+        return new FileSizePredicate(fileSizeEnabledCheckBox.isSelected(), FileSizeUnit.valueOf(lowerBoundChoiceBox.getValue().toUpperCase()), lowerBound, upperBound);
+    }
+
+    private ExtensionPredicate getExtensionPredicate() {
+        return new ExtensionPredicate(
+                extensionEnabledCheckBox.isSelected(),
+                pngCheckBox.isSelected(),
+                jpgCheckBox.isSelected(),
+                mp3CheckBox.isSelected(),
+                mp4CheckBox.isSelected(),
+                aviCheckBox.isSelected(),
+                mkvCheckBox.isSelected(),
+                txtCheckBox.isSelected(),
+                docCheckBox.isSelected(),
+                docxCheckBox.isSelected(),
+                pdfCheckBox.isSelected(),
+                otherExtensionTextField.getText()
+        );
+    }
+
+    private CreationDatePredicate getCreationDatePredicate() {
+        return new CreationDatePredicate(
+                creationDateEnabledCheckBox.isSelected(),
+                afterCreationDatePicker.getValue(),
+                beforeCreationDatePicker.getValue()
+        );
+    }
+
+    private LastModifiedDatePredicate getLastModifiedDatePredicate() {
+        return new LastModifiedDatePredicate(
+                lastModificationDateEnabledCheckBox.isSelected(),
+                afterLastModificationDatePicker.getValue(),
+                beforeLastModificationDatePicker.getValue()
+        );
+    }
+
+    private MetadataPredicate getMetadataPredicate() {
+        return new MetadataPredicate(metadataEnabledCheckBox.isSelected(), metadataList);
     }
     //endregion
 }
