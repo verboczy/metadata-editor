@@ -6,11 +6,17 @@ import domain.MetadataType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import metadata.MetadataCell;
 import metadata.MetadataSearch;
@@ -20,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import predicate.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -254,7 +261,26 @@ public class SearchController implements Initializable {
                 .filter(metadataPredicate.getPredicate())
                 .collect(Collectors.toList());
 
-        foundFiles.forEach(f -> log.info("Name: {}, path: {}", f.getName(), f.getAbsolutePath()));
+        openResultWindow(foundFiles);
+    }
+
+    private void openResultWindow(final List<File> fileList) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/result.fxml"));
+            Parent root = loader.load();
+
+            ResultController resultController = loader.getController();
+            resultController.setResults(fileList);
+
+            Stage searchStage = new Stage();
+            searchStage.setTitle("Results");
+            searchStage.initStyle(StageStyle.DECORATED);
+            searchStage.initModality(Modality.APPLICATION_MODAL);
+            searchStage.setScene(new Scene(root, 800, 400));
+            searchStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     //endregion
 
